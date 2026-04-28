@@ -580,81 +580,81 @@ var SCOUT_DATA = {
 // === NEWTON DIVISION (Houston, Apr 29 - May 2, 2026) =========================
 
 var NEWTON_TEAMS = [
-  {n:88,    name:"TJ²",                  loc:"Bridgewater, MA",        pit:"Q07", tier:"A"},
-  {n:148,   name:"Robowranglers",             loc:"Greenville, TX",         pit:"P24", tier:"S"},
-  {n:180,   name:"S.P.A.M.",                  loc:"Stuart, FL",             pit:"P04", tier:"S"},
-  {n:195,   name:"CyberKnights",              loc:"Southington, CT",        pit:"P27", tier:"B"},
-  {n:233,   name:"The Pink Team",             loc:"Rockledge, FL",          pit:"P10", tier:"A"},
-  {n:341,   name:"Miss Daisy",                loc:"Ambler, PA",             pit:"R11", tier:"A"},
-  {n:346,   name:"RoboHawks",                 loc:"Richmond, VA",           pit:"P17", tier:"B"},
-  {n:386,   name:"Team Voltage",              loc:"Melbourne, FL",          pit:"Q05", tier:"B"},
-  {n:424,   name:"Rust Belt Robotics",        loc:"Buffalo, NY",            pit:"Q09", tier:"U"},
-  {n:599,   name:"The Robodox",               loc:"Granada Hills, CA",      pit:"P11", tier:"B"},
-  {n:604,   name:"Quixilver",                 loc:"San Jose, CA",           pit:"P26", tier:"B"},
-  {n:687,   name:"The Nerd Herd",             loc:"Carson, CA",             pit:"Q24", tier:"B"},
-  {n:695,   name:"Bison Robotics",            loc:"Beachwood, OH",          pit:"R16", tier:"U"},
-  {n:818,   name:"The Steel Armadillos",      loc:"Warren, MI",             pit:"N15", tier:"U"},
-  {n:868,   name:"TechHOUNDS",                loc:"Carmel, IN",             pit:"Q25", tier:"U"},
-  {n:930,   name:"Mukwonago BEARs",           loc:"Mukwonago, WI",          pit:"Q15", tier:"U"},
-  {n:948,   name:"NRG",                       loc:"Bellevue, WA",           pit:"N06", tier:"U"},
-  {n:973,   name:"Greybots",                  loc:"Atascadero, CA",         pit:"P08", tier:"B"},
-  {n:1108,  name:"Panther Robotics",          loc:"Paola, KS",              pit:"N28", tier:"U"},
-  {n:1540,  name:"Flaming Chickens",          loc:"Portland, OR",           pit:"R12", tier:"A"},
-  {n:1577,  name:"Steampunk",                 loc:"Raanana, Israel",        pit:"Q04", tier:"A"},
-  {n:1796,  name:"RoboTigers",                loc:"Queens, NY",             pit:"P05", tier:"U"},
-  {n:1807,  name:"Redbird Robotics",          loc:"Allentown, NJ",          pit:"N25", tier:"U"},
-  {n:1833,  name:"Team BEAN",                 loc:"Cumming, GA",            pit:"P15", tier:"U"},
+  {n:88,    name:"TJ²",                  loc:"Bridgewater, MA",        pit:"Q07"},
+  {n:148,   name:"Robowranglers",             loc:"Greenville, TX",         pit:"P24"},
+  {n:180,   name:"S.P.A.M.",                  loc:"Stuart, FL",             pit:"P04"},
+  {n:195,   name:"CyberKnights",              loc:"Southington, CT",        pit:"P27"},
+  {n:233,   name:"The Pink Team",             loc:"Rockledge, FL",          pit:"P10"},
+  {n:341,   name:"Miss Daisy",                loc:"Ambler, PA",             pit:"R11"},
+  {n:346,   name:"RoboHawks",                 loc:"Richmond, VA",           pit:"P17"},
+  {n:386,   name:"Team Voltage",              loc:"Melbourne, FL",          pit:"Q05"},
+  {n:424,   name:"Rust Belt Robotics",        loc:"Buffalo, NY",            pit:"Q09"},
+  {n:599,   name:"The Robodox",               loc:"Granada Hills, CA",      pit:"P11"},
+  {n:604,   name:"Quixilver",                 loc:"San Jose, CA",           pit:"P26"},
+  {n:687,   name:"The Nerd Herd",             loc:"Carson, CA",             pit:"Q24"},
+  {n:695,   name:"Bison Robotics",            loc:"Beachwood, OH",          pit:"R16"},
+  {n:818,   name:"The Steel Armadillos",      loc:"Warren, MI",             pit:"N15"},
+  {n:868,   name:"TechHOUNDS",                loc:"Carmel, IN",             pit:"Q25"},
+  {n:930,   name:"Mukwonago BEARs",           loc:"Mukwonago, WI",          pit:"Q15"},
+  {n:948,   name:"NRG",                       loc:"Bellevue, WA",           pit:"N06"},
+  {n:973,   name:"Greybots",                  loc:"Atascadero, CA",         pit:"P08"},
+  {n:1108,  name:"Panther Robotics",          loc:"Paola, KS",              pit:"N28"},
+  {n:1540,  name:"Flaming Chickens",          loc:"Portland, OR",           pit:"R12"},
+  {n:1577,  name:"Steampunk",                 loc:"Raanana, Israel",        pit:"Q04"},
+  {n:1796,  name:"RoboTigers",                loc:"Queens, NY",             pit:"P05"},
+  {n:1807,  name:"Redbird Robotics",          loc:"Allentown, NJ",          pit:"N25"},
+  {n:1833,  name:"Team BEAN",                 loc:"Cumming, GA",            pit:"P15"},
   {n:1884,  name:"Griffins",                  loc:"London, UK",             pit:"N11", us:true},
-  {n:1902,  name:"Exploding Bacon",           loc:"Orlando, FL",            pit:"N24", tier:"A"},
-  {n:1922,  name:"Oz-Ram",                    loc:"Contoocook, NH",         pit:"N27", tier:"U"},
-  {n:2046,  name:"Bear Metal",                loc:"Maple Valley, WA",       pit:"N09", tier:"S"},
-  {n:2052,  name:"KnightKrawler",             loc:"New Brighton, MN",       pit:"N17", tier:"A"},
-  {n:2067,  name:"Apple Pi",                  loc:"Guilford, CT",           pit:"N08", tier:"A"},
-  {n:2194,  name:"Fondy Fire",                loc:"Fond du Lac, WI",        pit:"Q26", tier:"U"},
-  {n:2370,  name:"IBOTS",                     loc:"Rutland, VT",            pit:"P18", tier:"U"},
-  {n:2586,  name:"Copper Bots",               loc:"Calumet, MI",            pit:"R23", tier:"U"},
-  {n:2713,  name:"Red Hawk Robotics",         loc:"Melrose, MA",            pit:"Q12", tier:"B"},
-  {n:2783,  name:"Engineers of Tomorrow",     loc:"La Grange, KY",          pit:"P07", tier:"U"},
-  {n:2910,  name:"Jack in the Bot",           loc:"Mill Creek, WA",         pit:"R13", tier:"U"},
-  {n:2996,  name:"Cougars Gone Wired",        loc:"Colorado Springs, CO",   pit:"Q13", tier:"U"},
-  {n:3005,  name:"RoboChargers",              loc:"Dallas, TX",             pit:"P09", tier:"B"},
-  {n:3044,  name:"Team 0xBE4",                loc:"Ballston Spa, NY",       pit:"N14", tier:"U"},
-  {n:3256,  name:"WarriorBorgs",              loc:"San Jose, CA",           pit:"R18", tier:"U"},
-  {n:3276,  name:"TOOLCATS",                  loc:"New London-Spicer, MN",  pit:"P23", tier:"U"},
-  {n:3354,  name:"PrepaTec - TecDroid",       loc:"Querétaro, Mexico", pit:"Q08", tier:"B"},
-  {n:3966,  name:"Gryphon Command",           loc:"Knoxville, TN",          pit:"N05", tier:"B"},
-  {n:4099,  name:"The Falcons",               loc:"Poolesville, MD",        pit:"Q03", tier:"U"},
-  {n:4206,  name:"Robo Vikes",                loc:"Fort Worth, TX",         pit:"R03", tier:"U"},
-  {n:4253,  name:"Raid Zero",                 loc:"Taipei, Chinese Taipei", pit:"P13", tier:"S"},
-  {n:4400,  name:"Cerbotics - Peñoles",  loc:"Torreón, Mexico",   pit:"Q11", tier:"U"},
-  {n:4561,  name:"TerrorBytes",               loc:"Research Triangle, NC",  pit:"P12", tier:"U"},
-  {n:4590,  name:"GreenBlitz",                loc:"Hakfar Hayarok, Israel", pit:"Q17", tier:"A"},
-  {n:5216,  name:"E-Ville Empire",            loc:"Essexville, MI",         pit:"N13", tier:"U"},
-  {n:5414,  name:"Pearadox",                  loc:"Pearland, TX",           pit:"N16", tier:"A"},
-  {n:5549,  name:"Gryphon Robotics",          loc:"Falls Church, VA",       pit:"N23", tier:"B"},
-  {n:5736,  name:"Kingsmen Robotics",         loc:"Kings Park, NY",         pit:"R08", tier:"U"},
-  {n:5948,  name:"PrepaTec - Lebotics",       loc:"Cuernavaca, Mexico",     pit:"Q18", tier:"U"},
-  {n:5951,  name:"Makers Assemble",           loc:"Tel Aviv, Israel",       pit:"N07", tier:"A"},
-  {n:6036,  name:"Peninsula Robotics",        loc:"Palo Alto, CA",          pit:"N26", tier:"U"},
-  {n:6352,  name:"LAUNCH TEAM",               loc:"Surprise, AZ",           pit:"Q23", tier:"U"},
-  {n:6436,  name:"NARBULUT PARS",             loc:"Istanbul, Türkiye", pit:"P06", tier:"W"},
-  {n:6647,  name:"PrepaTec - VOLTEC",         loc:"Monterrey, Mexico",      pit:"R14", tier:"B"},
-  {n:6988,  name:"ACI35",                     loc:"Izmir, Türkiye",    pit:"R09", tier:"W"},
-  {n:7160,  name:"Ludington O-Bots",          loc:"Ludington, MI",          pit:"R07", tier:"U"},
-  {n:8046,  name:"LakerBots",                 loc:"Meredith, NH",           pit:"Q10", tier:"B"},
-  {n:8373,  name:"The Flying Octopi",         loc:"Blissfield, MI",         pit:"P25", tier:"U"},
-  {n:9029,  name:"Team NF",                   loc:"Ankara, Türkiye",   pit:"R25", tier:"W"},
-  {n:9067,  name:"The Goonies",               loc:"Searcy, AR",             pit:"Q14", tier:"W"},
-  {n:9128,  name:"ITKAN Robotics",            loc:"Plano, TX",              pit:"Q16", tier:"U"},
-  {n:9245,  name:"Laker Dreadnoughts",        loc:"Pigeon, MI",             pit:"Q06", tier:"U"},
-  {n:9408,  name:"Warren Warbots",            loc:"Downey, CA",             pit:"R17", tier:"U"},
-  {n:9450,  name:"Velocity Raptors",          loc:"Woodinville, WA",        pit:"N18", tier:"U"},
-  {n:10291, name:"MUTUM-X",                   loc:"Nova Mutum, Brazil",     pit:"P14", tier:"W"},
-  {n:10553, name:"Orange Overdrive",          loc:"Oregon, WI",             pit:"R06", tier:"U"},
-  {n:10903, name:"The Ionizers",              loc:"Reno, NV",               pit:"P16", tier:"U"},
-  {n:10935, name:"Krono",                     loc:"Kiryat Ono, Israel",     pit:"R15", tier:"W"},
-  {n:10979, name:"Tiger Robotics",            loc:"Philadelphia, PA",       pit:"R05", tier:"U"},
-  {n:11463, name:"SHC Robotics",              loc:"San Francisco, CA",      pit:"N12", tier:"W"},
+  {n:1902,  name:"Exploding Bacon",           loc:"Orlando, FL",            pit:"N24"},
+  {n:1922,  name:"Oz-Ram",                    loc:"Contoocook, NH",         pit:"N27"},
+  {n:2046,  name:"Bear Metal",                loc:"Maple Valley, WA",       pit:"N09"},
+  {n:2052,  name:"KnightKrawler",             loc:"New Brighton, MN",       pit:"N17"},
+  {n:2067,  name:"Apple Pi",                  loc:"Guilford, CT",           pit:"N08"},
+  {n:2194,  name:"Fondy Fire",                loc:"Fond du Lac, WI",        pit:"Q26"},
+  {n:2370,  name:"IBOTS",                     loc:"Rutland, VT",            pit:"P18"},
+  {n:2586,  name:"Copper Bots",               loc:"Calumet, MI",            pit:"R23"},
+  {n:2713,  name:"Red Hawk Robotics",         loc:"Melrose, MA",            pit:"Q12"},
+  {n:2783,  name:"Engineers of Tomorrow",     loc:"La Grange, KY",          pit:"P07"},
+  {n:2910,  name:"Jack in the Bot",           loc:"Mill Creek, WA",         pit:"R13"},
+  {n:2996,  name:"Cougars Gone Wired",        loc:"Colorado Springs, CO",   pit:"Q13"},
+  {n:3005,  name:"RoboChargers",              loc:"Dallas, TX",             pit:"P09"},
+  {n:3044,  name:"Team 0xBE4",                loc:"Ballston Spa, NY",       pit:"N14"},
+  {n:3256,  name:"WarriorBorgs",              loc:"San Jose, CA",           pit:"R18"},
+  {n:3276,  name:"TOOLCATS",                  loc:"New London-Spicer, MN",  pit:"P23"},
+  {n:3354,  name:"PrepaTec - TecDroid",       loc:"Querétaro, Mexico", pit:"Q08"},
+  {n:3966,  name:"Gryphon Command",           loc:"Knoxville, TN",          pit:"N05"},
+  {n:4099,  name:"The Falcons",               loc:"Poolesville, MD",        pit:"Q03"},
+  {n:4206,  name:"Robo Vikes",                loc:"Fort Worth, TX",         pit:"R03"},
+  {n:4253,  name:"Raid Zero",                 loc:"Taipei, Chinese Taipei", pit:"P13"},
+  {n:4400,  name:"Cerbotics - Peñoles",  loc:"Torreón, Mexico",   pit:"Q11"},
+  {n:4561,  name:"TerrorBytes",               loc:"Research Triangle, NC",  pit:"P12"},
+  {n:4590,  name:"GreenBlitz",                loc:"Hakfar Hayarok, Israel", pit:"Q17"},
+  {n:5216,  name:"E-Ville Empire",            loc:"Essexville, MI",         pit:"N13"},
+  {n:5414,  name:"Pearadox",                  loc:"Pearland, TX",           pit:"N16"},
+  {n:5549,  name:"Gryphon Robotics",          loc:"Falls Church, VA",       pit:"N23"},
+  {n:5736,  name:"Kingsmen Robotics",         loc:"Kings Park, NY",         pit:"R08"},
+  {n:5948,  name:"PrepaTec - Lebotics",       loc:"Cuernavaca, Mexico",     pit:"Q18"},
+  {n:5951,  name:"Makers Assemble",           loc:"Tel Aviv, Israel",       pit:"N07"},
+  {n:6036,  name:"Peninsula Robotics",        loc:"Palo Alto, CA",          pit:"N26"},
+  {n:6352,  name:"LAUNCH TEAM",               loc:"Surprise, AZ",           pit:"Q23"},
+  {n:6436,  name:"NARBULUT PARS",             loc:"Istanbul, Türkiye", pit:"P06"},
+  {n:6647,  name:"PrepaTec - VOLTEC",         loc:"Monterrey, Mexico",      pit:"R14"},
+  {n:6988,  name:"ACI35",                     loc:"Izmir, Türkiye",    pit:"R09"},
+  {n:7160,  name:"Ludington O-Bots",          loc:"Ludington, MI",          pit:"R07"},
+  {n:8046,  name:"LakerBots",                 loc:"Meredith, NH",           pit:"Q10"},
+  {n:8373,  name:"The Flying Octopi",         loc:"Blissfield, MI",         pit:"P25"},
+  {n:9029,  name:"Team NF",                   loc:"Ankara, Türkiye",   pit:"R25"},
+  {n:9067,  name:"The Goonies",               loc:"Searcy, AR",             pit:"Q14"},
+  {n:9128,  name:"ITKAN Robotics",            loc:"Plano, TX",              pit:"Q16"},
+  {n:9245,  name:"Laker Dreadnoughts",        loc:"Pigeon, MI",             pit:"Q06"},
+  {n:9408,  name:"Warren Warbots",            loc:"Downey, CA",             pit:"R17"},
+  {n:9450,  name:"Velocity Raptors",          loc:"Woodinville, WA",        pit:"N18"},
+  {n:10291, name:"MUTUM-X",                   loc:"Nova Mutum, Brazil",     pit:"P14"},
+  {n:10553, name:"Orange Overdrive",          loc:"Oregon, WI",             pit:"R06"},
+  {n:10903, name:"The Ionizers",              loc:"Reno, NV",               pit:"P16"},
+  {n:10935, name:"Krono",                     loc:"Kiryat Ono, Israel",     pit:"R15"},
+  {n:10979, name:"Tiger Robotics",            loc:"Philadelphia, PA",       pit:"R05"},
+  {n:11463, name:"SHC Robotics",              loc:"San Francisco, CA",      pit:"N12"},
 ];
 
 var NEWTON_TIERS = [
@@ -662,9 +662,89 @@ var NEWTON_TIERS = [
   {id:'S',   label:'Tier S',   cls:'bg-red-500/20 text-red-300 border-red-500/40'},
   {id:'A',   label:'Tier A',   cls:'bg-orange-500/20 text-orange-300 border-orange-500/40'},
   {id:'B',   label:'Tier B',   cls:'bg-yellow-500/20 text-yellow-300 border-yellow-500/40'},
-  {id:'W',   label:'Wildcard', cls:'bg-purple-500/20 text-purple-300 border-purple-500/40'},
   {id:'U',   label:'Unknown',  cls:'bg-slate-700 text-slate-300 border-slate-600'},
 ];
+
+// === NEWTON_SCOUT — built from pre-Champs statbotics + scout form ===
+// Tier cutoffs (EPA-driven): S 200+, A 150-199, B 110-149, U <110
+// Generated 2026-04-28 from CSVs. Re-run scout-data builder if more data comes in.
+var NEWTON_SCOUT = {
+  2046: {tier:'S', epa:301, warn:false, notes:'EPA 301 (auto 62, teleop 172, endgame 67) • turret | 12+ balls/s | trench, bump • no climb | def 4/5 • — Darcy • [Pre-champs — may be outdated]'},
+  9128: {tier:'S', epa:283, warn:true, notes:'EPA 283 (auto 70, teleop 157, endgame 57) • fixed | 12+ balls/s | trench, bump • no climb • Issues: Note: scoring says 12+, but they scored ~30/s EASY TO DEFEND (relative to points scored) EASILY BEACHED!!!!! • — Shivan • [Pre-champs — may be outdated]'},
+  1796: {tier:'S', epa:251, warn:false, notes:'EPA 251 (auto 45, teleop 152, endgame 54) • turret | 9-12 balls/s | trench, bump • no climb • — Adam Wahbeh • [Pre-champs — may be outdated]'},
+  1833: {tier:'S', epa:247, warn:false, notes:'EPA 247 (auto 57, teleop 146, endgame 43) • fixed | 3-6 balls/s | trench • climbs | def 4/5 • Issues: Slightly slower cycle time compared to elite shooters Needs time to line up accurate shots Can get disrupted by defense while lining up • — Keyah • [Pre-champs — may be outdated]'},
+  5736: {tier:'S', epa:226, warn:false, notes:'EPA 226 (auto 64, teleop 116, endgame 46) • fixed | 3-6 balls/s | trench • climbs L3 | def 4/5 • Issues: Their team relies heavily on fast offensive cycles. strong defense can slow their overall performance. They sometimes spend extra time lining up accurate shots before scoring. C... • — Violet Jameson Evans • [Pre-champs — may be outdated]'},
+  180: {tier:'S', epa:221, warn:false, notes:'EPA 221 (auto 53, teleop 120, endgame 48) • [Pre-champs — may be outdated]'},
+  2910: {tier:'S', epa:211, warn:false, notes:'EPA 211 (auto 37, teleop 119, endgame 54) • fixed | 9-12 balls/s | bump • no climb • Issues: seems to have a fixed shooter, so when a dbot bumps into them, it may slow them down a little. but their shooter is reaaalllyy fast (shoots multiple balls at a time, like the WC... • — Kiyoshi • [Pre-champs — may be outdated]'},
+  195: {tier:'S', epa:206, warn:false, notes:'EPA 206 (auto 58, teleop 103, endgame 45) • fixed | 3-6 balls/s | trench • climbs L3 | def 3/5 • Issues: Occasionally takes time to line up shots Slight delay between ball collection and shooting Not the fastest cycling compared to top teams • — Keyah • [Pre-champs — may be outdated]'},
+  604: {tier:'S', epa:203, warn:false, notes:'EPA 203 (auto 39, teleop 117, endgame 46) • turret | 9-12 balls/s | bump • no climb • — Ranger • [Pre-champs — may be outdated]'},
+  695: {tier:'S', epa:201, warn:false, notes:'EPA 201 (auto 40, teleop 106, endgame 55) • turret | 3-6 balls/s | trench • climbs L3 | def 3/5 • Issues: The robot sometimes struggles with shot consistency when defended heavily. It can take extra time to line up accurate shots, and strong defensive pressure can slow down cycling.... • — Violet Jameson Evans • [Pre-champs — may be outdated]'},
+  2067: {tier:'A', epa:194, warn:true, notes:'EPA 194 (auto 42, teleop 104, endgame 49) • fixed | 9-12 balls/s | bump • no climb • Issues: Notes: Captain of Alliance 7 in one regional, and 1st pick of 1st and 2nd alliances in other regionals; won 1 regional.  Also, can ONLY go over bump despite being one of the bes... • — Shivan • [Pre-champs — may be outdated]'},
+  6036: {tier:'A', epa:190, warn:true, notes:'EPA 190 (auto 44, teleop 106, endgame 39) • fixed | 6-9 balls/s | bump • no climb | def 3/5 | ferry 4/5 • Issues: nearly got beached ~0:45; not a weakness, but they tend to ferry • — Kiyoshi Yoshino • [Pre-champs — may be outdated]'},
+  6647: {tier:'A', epa:188, warn:false, notes:'EPA 188 (auto 34, teleop 111, endgame 42) • fixed | 9-12 balls/s | bump • no climb • Issues: No • — Oscar • [Pre-champs — may be outdated]'},
+  973: {tier:'A', epa:188, warn:false, notes:'EPA 188 (auto 46, teleop 100, endgame 42) • [Pre-champs — may be outdated]'},
+  599: {tier:'A', epa:187, warn:false, notes:'EPA 187 (auto 40, teleop 116, endgame 31) • fixed | 6-9 balls/s | bump • no climb • Issues: Note: Secondary shooter, average • — Shivan • [Pre-champs — may be outdated]'},
+  1540: {tier:'A', epa:186, warn:false, notes:'EPA 186 (auto 45, teleop 103, endgame 38) • turret | 9-12 balls/s | trench • no climb • Issues: no • — Rani • [Pre-champs — may be outdated]'},
+  4400: {tier:'A', epa:186, warn:false, notes:'EPA 186 (auto 28, teleop 117, endgame 42) • [Pre-champs — may be outdated]'},
+  341: {tier:'A', epa:179, warn:false, notes:'EPA 179 (auto 37, teleop 104, endgame 38) • turret | 6-9 balls/s | trench, bump • no climb | def 4/5 • — Rish • [Pre-champs — may be outdated]'},
+  3256: {tier:'A', epa:179, warn:true, notes:'EPA 179 (auto 46, teleop 85, endgame 48) • turret | 12+ balls/s | bump • no climb • Issues: got stuck • — Rani • [Pre-champs — may be outdated]'},
+  88: {tier:'A', epa:176, warn:false, notes:'EPA 176 (auto 44, teleop 95, endgame 38) • [Pre-champs — may be outdated]'},
+  148: {tier:'A', epa:170, warn:false, notes:'EPA 170 (auto 33, teleop 95, endgame 42) • turret | 6-9 balls/s | trench, bump • no climb | def 3/5 • — Adam Wahbeh • [Pre-champs — may be outdated]'},
+  9408: {tier:'A', epa:166, warn:false, notes:'EPA 166 (auto 34, teleop 90, endgame 42) • [Pre-champs — may be outdated]'},
+  2783: {tier:'A', epa:163, warn:false, notes:'EPA 163 (auto 26, teleop 90, endgame 48) • turret | 3-6 balls/s | trench • no climb | def 3/5 • — Ara Edun • [Pre-champs — may be outdated]'},
+  2996: {tier:'A', epa:160, warn:false, notes:'EPA 160 (auto 34, teleop 88, endgame 38) • fixed | 3-6 balls/s | trench, bump • no climb • Issues: just a slow robot • — Asa • [Pre-champs — may be outdated]'},
+  2052: {tier:'A', epa:157, warn:false, notes:'EPA 157 (auto 32, teleop 91, endgame 34) • fixed | 12+ balls/s | trench • no climb | def 4/5 • Issues: Gets suck on trench cause its too tall. • — Felipe Caseiras • [Pre-champs — may be outdated]'},
+  4206: {tier:'A', epa:155, warn:false, notes:'EPA 155 (auto 22, teleop 99, endgame 33) • [Pre-champs — may be outdated]'},
+  948: {tier:'A', epa:154, warn:false, notes:'EPA 154 (auto 36, teleop 83, endgame 35) • fixed | 6-9 balls/s | bump • no climb No climb • Issues: Nope • — Asa • [Pre-champs — may be outdated]'},
+  2713: {tier:'A', epa:153, warn:false, notes:'EPA 153 (auto 24, teleop 94, endgame 35) • [Pre-champs — may be outdated]'},
+  4099: {tier:'B', epa:146, warn:true, notes:'EPA 146 (auto 39, teleop 74, endgame 33) • fixed | 1-3 balls/s | trench • attempted, but unsuccessful L1 | def 2/5 • Issues: Slower intake and shooting cycle Takes time to aim accurately Can be disrupted easily by defense Occasional ball control issues • — Keyah • [Pre-champs — may be outdated]'},
+  8046: {tier:'B', epa:143, warn:false, notes:'EPA 143 (auto 24, teleop 84, endgame 35) • [Pre-champs — may be outdated]'},
+  687: {tier:'B', epa:143, warn:true, notes:'EPA 143 (auto 35, teleop 78, endgame 29) • fixed | 6-9 balls/s | trench, bump • no climb | def 2/5 • Issues: Seemed like they had some issues intaking and got stuck shortly a couple times • — Benji • [Pre-champs — may be outdated]'},
+  2370: {tier:'B', epa:142, warn:false, notes:'EPA 142 (auto 32, teleop 80, endgame 30) • turret | 3-6 balls/s | trench • no climb | def 2/5 • Issues: slow shooting, intake not great • — Benji • [Pre-champs — may be outdated]'},
+  346: {tier:'B', epa:140, warn:false, notes:'EPA 140 (auto 18, teleop 92, endgame 30) • [Pre-champs — may be outdated]'},
+  1922: {tier:'B', epa:139, warn:false, notes:'EPA 139 (auto 22, teleop 79, endgame 38) • [Pre-champs — may be outdated]'},
+  2194: {tier:'B', epa:138, warn:false, notes:'EPA 138 (auto 40, teleop 81, endgame 18) • fixed | 3-6 balls/s | bump • no climb • — Ranger • [Pre-champs — may be outdated]'},
+  3005: {tier:'B', epa:136, warn:false, notes:'EPA 136 (auto 25, teleop 73, endgame 38) • [Pre-champs — may be outdated]'},
+  6436: {tier:'B', epa:130, warn:false, notes:'EPA 130 (auto 20, teleop 73, endgame 38) • [Pre-champs — may be outdated]'},
+  8373: {tier:'B', epa:129, warn:false, notes:'EPA 129 (auto 13, teleop 73, endgame 43) • [Pre-champs — may be outdated]'},
+  9245: {tier:'B', epa:129, warn:false, notes:'EPA 129 (auto 39, teleop 60, endgame 31) • [Pre-champs — may be outdated]'},
+  233: {tier:'B', epa:128, warn:false, notes:'EPA 128 (auto 16, teleop 70, endgame 42) • [Pre-champs — may be outdated]'},
+  4561: {tier:'B', epa:127, warn:true, notes:'EPA 127 (auto 23, teleop 73, endgame 31) • fixed | 3-6 balls/s | trench, bump • climbs L1 | def 2/5 • Issues: struggle and get stuck under trench and stuck on bump, their aim was quite off and managed to shoot accuratly • — Darcy • [Pre-champs — may be outdated]'},
+  5948: {tier:'B', epa:127, warn:false, notes:'EPA 127 (auto 19, teleop 81, endgame 27) • [Pre-champs — may be outdated]'},
+  1108: {tier:'B', epa:127, warn:false, notes:'EPA 127 (auto 16, teleop 77, endgame 34) • fixed | 3-6 balls/s | bump • no climb | def 3/5 • Issues: No • — Oscar • [Pre-champs — may be outdated]'},
+  3276: {tier:'B', epa:126, warn:false, notes:'EPA 126 (auto 25, teleop 80, endgame 21) • [Pre-champs — may be outdated]'},
+  930: {tier:'B', epa:122, warn:true, notes:'EPA 122 (auto 13, teleop 74, endgame 36) • fixed | 1-3 balls/s | bump • no climb • Issues: got beached once (~1:05 in the match), pretty slow, shoots really slow (at the start they shot only one ball per ~4ish seconds). • — Kiyoshi • [Pre-champs — may be outdated]'},
+  868: {tier:'B', epa:122, warn:false, notes:'EPA 122 (auto 24, teleop 67, endgame 30) • turret | 3-6 balls/s | bump • no climb | def 3/5 • — Ara Edun • [Pre-champs — may be outdated]'},
+  5549: {tier:'B', epa:120, warn:false, notes:'EPA 120 (auto 20, teleop 65, endgame 36) • fixed | 3-6 balls/s | trench • no climb | def 2/5 • Issues: not really • — Benji • [Pre-champs — may be outdated]'},
+  7160: {tier:'B', epa:118, warn:false, notes:'EPA 118 (auto 18, teleop 64, endgame 37) • [Pre-champs — may be outdated]'},
+  424: {tier:'B', epa:117, warn:false, notes:'EPA 117 (auto 24, teleop 65, endgame 28) • fixed | 3-6 balls/s | trench, bump • no climb • Issues: Clunky, not at all agile, super slow, it can bearly go under trench, seemly hard to aim. • — Felipe Caseiras • [Pre-champs — may be outdated]'},
+  3966: {tier:'B', epa:116, warn:false, notes:'EPA 116 (auto 16, teleop 75, endgame 26) • [Pre-champs — may be outdated]'},
+  9450: {tier:'U', epa:109, warn:false, notes:'EPA 109 (auto 19, teleop 63, endgame 27) • [Pre-champs — may be outdated]'},
+  386: {tier:'U', epa:108, warn:false, notes:'EPA 108 (auto 17, teleop 63, endgame 28) • turret | 6-9 balls/s | trench • no climb | def 2/5 • — Darcy • [Pre-champs — may be outdated]'},
+  3354: {tier:'U', epa:106, warn:false, notes:'EPA 106 (auto 16, teleop 61, endgame 29) • fixed | 9-12 balls/s | trench • no climb • — Adam Wahbeh • [Pre-champs — may be outdated]'},
+  9029: {tier:'U', epa:101, warn:false, notes:'EPA 101 (auto 25, teleop 60, endgame 15) • [Pre-champs — may be outdated]'},
+  818: {tier:'U', epa:99, warn:false, notes:'EPA 99 (auto 28, teleop 52, endgame 19) • [Pre-champs — may be outdated]'},
+  3044: {tier:'U', epa:92, warn:false, notes:'EPA 92 (auto 18, teleop 51, endgame 22) • turret | 1-3 balls/s | trench • no climb | def 3/5 • Issues: This is just a note: It is a fairy bot • — Oscar • [Pre-champs — may be outdated]'},
+  5216: {tier:'U', epa:89, warn:true, notes:'EPA 89 (auto 27, teleop 42, endgame 21) • fixed | 1-3 balls/s | trench • no climb | def 2/5 • Issues: Can\'t go through bump, tried once and was very easily beached Note: doesn\'t shoot at all, just very ineffective d-bot • — Shivan • [Pre-champs — may be outdated]'},
+  5951: {tier:'U', epa:86, warn:false, notes:'EPA 86 (auto 19, teleop 46, endgame 21) • fixed | 9-12 balls/s | trench, bump • no climb | def 4/5 • Issues: May potentially have defencded their own teamates. • — Ara Edun • [Pre-champs — may be outdated]'},
+  2586: {tier:'U', epa:80, warn:false, notes:'EPA 80 (auto 15, teleop 42, endgame 22) • fixed | 3-6 balls/s | trench • climbs L3 | def 4/5 • Issues: The robot is generally consistent. Occasionally there is traffic near the loading zone which slows intake efficiency, and the climbing setup can require extra positioning time. • — Violet Jameson Evans • [Pre-champs — may be outdated]'},
+  5414: {tier:'U', epa:77, warn:false, notes:'EPA 77 (auto 19, teleop 33, endgame 25) • turret | 3-6 balls/s | trench • no climb | def 3/5 • — Ranger • [Pre-champs — may be outdated]'},
+  10903: {tier:'U', epa:73, warn:false, notes:'EPA 73 (auto 16, teleop 38, endgame 18) • [Pre-champs — may be outdated]'},
+  1807: {tier:'U', epa:69, warn:false, notes:'EPA 69 (auto 17, teleop 32, endgame 20) • [Pre-champs — may be outdated]'},
+  1577: {tier:'U', epa:69, warn:false, notes:'EPA 69 (auto 15, teleop 37, endgame 17) • [Pre-champs — may be outdated]'},
+  10553: {tier:'U', epa:66, warn:false, notes:'EPA 66 (auto 18, teleop 36, endgame 12) • [Pre-champs — may be outdated]'},
+  4590: {tier:'U', epa:61, warn:false, notes:'EPA 61 (auto 13, teleop 33, endgame 15) • fixed | 9-12 balls/s | bump • no climb | def 3/5 • Issues: Cant go on trench, boxy, clunky, no auto. • — Felipe Caseiras • [Pre-champs — may be outdated]'},
+  10291: {tier:'U', epa:50, warn:false, notes:'EPA 50 (auto 20, teleop 18, endgame 12) • [Pre-champs — may be outdated]'},
+  1902: {tier:'U', epa:49, warn:true, notes:'EPA 49 (auto 7, teleop 25, endgame 17) • fixed | 1-3 balls/s | trench • no climb | def 1/5 • Issues: Trouble going under trench, it seems like they barely make it under. Also I watched two matches because they did nothing in the first one and they also didn\'t do much in the sec... • — Rish • [Pre-champs — may be outdated]'},
+  4253: {tier:'U', epa:47, warn:false, notes:'EPA 47 (auto 12, teleop 29, endgame 6) • turret | 12+ balls/s | trench, bump • no climb | def 3/5 • Issues: Good robot, mid drive team • — Rish • [Pre-champs — may be outdated]'},
+  9067: {tier:'U', epa:41, warn:false, notes:'EPA 41 (auto 9, teleop 24, endgame 9) • [Pre-champs — may be outdated]'},
+  6352: {tier:'U', epa:38, warn:false, notes:'EPA 38 (auto 8, teleop 23, endgame 7) • fixed | 3-6 balls/s | bump • no climb no • Issues: Just a slower robot to begin with • — Asa • [Pre-champs — may be outdated]'},
+  10979: {tier:'U', epa:37, warn:false, notes:'EPA 37 (auto 7, teleop 20, endgame 10) • [Pre-champs — may be outdated]'},
+  1884: {tier:'U', epa:25, warn:false, notes:'EPA 25 (auto 4, teleop 15, endgame 6) • [Pre-champs — may be outdated]'},
+  10935: {tier:'U', epa:24, warn:false, notes:'EPA 24 (auto 5, teleop 13, endgame 6) • [Pre-champs — may be outdated]'},
+  11463: {tier:'U', epa:23, warn:false, notes:'EPA 23 (auto 5, teleop 12, endgame 6) • [Pre-champs — may be outdated]'},
+  6988: {tier:'U', epa:21, warn:true, notes:'EPA 21 (auto 6, teleop 14, endgame 1) • turret | 1-3 balls/s | didn\'t move at all • no climb • Issues: stuck • — Rani • [Pre-champs — may be outdated]'},
+};
 
 // Newton pit grid bays. Each bay is array-of-columns; each column is top-to-bottom.
 // "COL" = structural pillar, "INSP" = inspection station, 0 = empty slot.
@@ -742,7 +822,7 @@ var EVENTS = {
     fieldType: 'AndyMark field',
     matches: PLACEHOLDER_MATCHES,
     teams: NEWTON_TEAMS,
-    scout: {},
+    scout: NEWTON_SCOUT,
     pitGrid: { NEWTON_TOP_1, NEWTON_TOP_2, NEWTON_TOP_3, NEWTON_TOP_4, NEWTON_BOT_1, NEWTON_BOT_2, NEWTON_BOT_3, NEWTON_BOT_4, NEWTON_BOT_5 },
     pitGridLayout: 'newton',
     overviewBlurb: { type: 'defender' },
@@ -770,8 +850,9 @@ function PitBox(props){
   var bg=isUs?'bg-yellow-400 text-black border-yellow-300':hl?'bg-green-500 text-white border-green-300':'bg-amber-800/70 text-amber-100 border-amber-600';
   var openRing=open?'ring-2 ring-white':'';
   if(mode==='newton'){
-    var tier=teamObj?teamObj.tier:null;
-    var tierColors={S:'text-red-300',A:'text-orange-300',B:'text-yellow-300',W:'text-purple-300',U:'text-slate-300'};
+    var scoutEntry=teamObj&&!teamObj.us?NEWTON_SCOUT[teamObj.n]:null;
+    var tier=scoutEntry?scoutEntry.tier:null;
+    var tierColors={S:'text-red-300',A:'text-orange-300',B:'text-yellow-300',U:'text-slate-300'};
     var dimmed=tierFilter!=='all'&&!isUs&&tier!==tierFilter;
     return (
       <button onClick={function(){setPopup(open?null:n);}}
@@ -1051,34 +1132,49 @@ function FreeStrat(props){
 
 // === Newton tab components ===================================================
 
-function tierInfoFor(t){
-  if(!t||t.us) return null;
-  for(var i=0;i<NEWTON_TIERS.length;i++){if(NEWTON_TIERS[i].id===t.tier) return NEWTON_TIERS[i];}
+function tierInfoFor(tier){
+  if(!tier) return null;
+  for(var i=0;i<NEWTON_TIERS.length;i++){if(NEWTON_TIERS[i].id===tier) return NEWTON_TIERS[i];}
   return null;
 }
 
 function NewtonTierBadge(props){
-  var info=tierInfoFor(props.t);
+  var t=props.t;
+  if(!t||t.us) return null;
+  var sc=NEWTON_SCOUT[t.n];
+  if(!sc) return null;
+  var info=tierInfoFor(sc.tier);
   if(!info) return null;
-  return <span className={"px-1.5 py-0.5 rounded text-xs font-bold border "+info.cls}>{info.label}</span>;
+  return (
+    <span className={"px-1.5 py-0.5 rounded text-xs font-bold border "+info.cls}>
+      {sc.tier}{typeof sc.epa==='number'?' · EPA '+sc.epa:''}
+    </span>
+  );
 }
 
 function NewtonPopupCard(props){
   var t=props.team; var note=props.note; var setNote=props.setNote; var onClose=props.onClose;
   var isUs=t.us;
+  var sc=NEWTON_SCOUT[t.n];
   return (
-    <div className="bg-slate-800 border border-blue-500/40 rounded-xl p-3 space-y-2">
+    <div className={"bg-slate-800 border rounded-xl p-3 space-y-2 "+(sc&&sc.warn?'border-red-500/50':'border-blue-500/40')}>
       <div className="flex justify-between items-start gap-2">
         <div className="flex items-center gap-2 flex-wrap min-w-0">
           <p className="font-bold text-sm">{t.n} {t.name}</p>
           {isUs&&<span className="text-xs bg-green-500 text-black px-1 py-0.5 rounded font-bold">YOU</span>}
+          {sc&&sc.warn&&<span className="text-xs bg-red-600 text-white px-1 py-0.5 rounded font-bold">⚠ WARN</span>}
           <NewtonTierBadge t={t}/>
         </div>
         <button onClick={onClose} className="text-slate-400 text-xs px-2 shrink-0">x</button>
       </div>
       <p className="text-xs text-slate-400">{t.loc} <span className="text-slate-500">| Pit {t.pit}</span></p>
+      {sc&&sc.notes&&(
+        <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-line border-t border-slate-700 pt-2">
+          {sc.notes.replace(/ • /g,'\n')}
+        </p>
+      )}
       <textarea value={note||''} onChange={function(e){setNote(e.target.value);}}
-        placeholder="Notes..."
+        placeholder="Our notes..."
         className="w-full bg-slate-900 border border-slate-600 rounded px-2 py-1.5 text-xs h-16 resize-none"/>
     </div>
   );
@@ -1160,8 +1256,20 @@ function TeamsTab(props){
   var hasTiers=!!event.tiers;
   var tierSt=useState('all'); var tier=tierSt[0]; var setTier=tierSt[1];
   var filtered=fT;
-  if(hasTiers&&tier!=='all'){
-    filtered=filtered.filter(function(t){return !t.us&&t.tier===tier;});
+  if(hasTiers){
+    if(tier!=='all'){
+      filtered=filtered.filter(function(t){
+        if(t.us) return false;
+        var sc=event.scout[t.n];
+        return sc&&sc.tier===tier;
+      });
+    }
+    // Sort by EPA descending so threats appear first.
+    filtered=filtered.slice().sort(function(a,b){
+      var ea=event.scout[a.n]?event.scout[a.n].epa:-1;
+      var eb=event.scout[b.n]?event.scout[b.n].epa:-1;
+      return eb-ea;
+    });
   }
   return (
     <div className="space-y-3">
@@ -1194,22 +1302,27 @@ function TeamsTab(props){
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="font-bold text-sm">{t.name}</p>
                     {t.us&&<span className="text-xs bg-green-500 text-black px-1 py-0.5 rounded font-bold">YOU</span>}
-                    {s&&s.warn&&<span className="text-xs bg-red-600 text-white px-1 py-0.5 rounded font-bold">! WARN</span>}
+                    {s&&s.warn&&<span className="text-xs bg-red-600 text-white px-1 py-0.5 rounded font-bold">⚠ WARN</span>}
                     {hasTiers&&<NewtonTierBadge t={t}/>}
                   </div>
                   <p className="text-xs text-slate-400">{t.loc}{t.pit?' | Pit '+t.pit:''}</p>
-                  {s&&<div className="flex items-center gap-1 mt-0.5">
+                  {!hasTiers&&s&&<div className="flex items-center gap-1 mt-0.5">
                     {[0,1,2,3].map(function(i){return <Star key={i} className={"w-3 h-3 "+(i<s.stars?'text-yellow-400 fill-yellow-400':'text-slate-600')}/>;}) }
                     {s.climb!=='None'&&<span className="text-xs text-purple-400 ml-1">{s.climb}</span>}
                     {s.avgFuel>0&&<span className="text-xs text-green-400 ml-1">~{s.avgFuel*5}fuel/cyc</span>}
                   </div>}
                 </div>
               </div>
-              {s&&<p className="text-xs text-slate-300 leading-relaxed border-t border-slate-700 pt-2">{s.notes}</p>}
+              {!hasTiers&&s&&<p className="text-xs text-slate-300 leading-relaxed border-t border-slate-700 pt-2">{s.notes}</p>}
               {!s&&!t.us&&!hasTiers&&<p className="text-xs text-slate-500 italic">No scouting data available</p>}
+              {hasTiers&&s&&s.notes&&(
+                <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-line border-t border-slate-700 pt-2">
+                  {s.notes.replace(/ • /g,'\n')}
+                </p>
+              )}
               {hasTiers&&(
                 <textarea value={getNote(t.n)} onChange={function(e){setNote(t.n,e.target.value);}}
-                  placeholder="Notes..."
+                  placeholder="Our notes..."
                   className="w-full bg-slate-900 border border-slate-600 rounded px-2 py-1.5 text-xs h-14 resize-none"/>
               )}
             </div>
