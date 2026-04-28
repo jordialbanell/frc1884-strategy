@@ -76,8 +76,8 @@ const SKETCH_COLORS=[
 
 function defaultPos(m) {
   const p={};
-  m.red.forEach((t,i)=>{p[t]={x:RED_HUB_X-sc(40),y:[R1Y,R2Y,R3Y][i]};});
-  m.blue.forEach((t,i)=>{p[t]={x:BLUE_HUB_X+sc(40),y:[B1Y,B2Y,B3Y][i]};});
+  m.red.forEach((t,i)=>{if(!t)return;p[t]={x:RED_HUB_X-sc(40),y:[R1Y,R2Y,R3Y][i]};});
+  m.blue.forEach((t,i)=>{if(!t)return;p[t]={x:BLUE_HUB_X+sc(40),y:[B1Y,B2Y,B3Y][i]};});
   return p;
 }
 
@@ -279,7 +279,7 @@ function InteractiveMap({ match, positions, setPositions, strokes, activeStroke,
   const hitRobot = useCallback((pt)=>{
     if(!pt) return null;
     const pos=posRef.current;
-    for(const t of [...match.red,...match.blue]){
+    for(const t of [...match.red,...match.blue].filter(t=>t)){
       const p=pos[t]||defaultPos(match)[t]; if(!p) continue;
       const dx=pt.x-p.x,dy=pt.y-p.y;
       if(Math.sqrt(dx*dx+dy*dy)<24) return t;
@@ -340,7 +340,7 @@ function InteractiveMap({ match, positions, setPositions, strokes, activeStroke,
         return <path key={i} d={d} stroke={s.color} strokeWidth={s.width||3.5} strokeLinecap="round" strokeLinejoin="round" fill="none" opacity={0.9}/>;
       })}
       {/* Robots */}
-      {[...match.red,...match.blue].map(team=>{
+      {[...match.red,...match.blue].filter(t=>t).map(team=>{
         const p=pos[team]||defaultPos(match)[team]; if(!p) return null;
         const isRed=match.red.includes(team);
         const idx=(isRed?match.red:match.blue).indexOf(team);
