@@ -1,5 +1,5 @@
-const { useState, useEffect, useRef, useCallback } = React;
-const { Search, Users, Trophy, Calendar, Book, AlertTriangle, Clock, Award, Share2, Check, RotateCcw, CircleDot, ArrowUp, Pencil, Eraser, Trash2, MapPin, Calculator, Star, Shield } = lucideReact;
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { Search, Users, Trophy, Calendar, Book, AlertTriangle, Clock, Award, Share2, Check, RotateCcw, CircleDot, ArrowUp, Pencil, Eraser, Trash2, MapPin, Calculator, Star, Shield } from 'lucide-react';
 
 const MATCHES = [
   { match:5,  day:"Sat 3/14", time:"9:26 AM",  red:[9218,10343,9199], blue:[1156,7565,1884],    our:'blue', stn:3 },
