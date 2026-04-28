@@ -659,9 +659,9 @@ var NEWTON_TEAMS = [
 
 var NEWTON_TIERS = [
   {id:'all', label:'All',      cls:'bg-green-500/20 text-green-300 border-green-500/40'},
-  {id:'S',   label:'Tier S',   cls:'bg-red-500/20 text-red-300 border-red-500/40'},
-  {id:'A',   label:'Tier A',   cls:'bg-orange-500/20 text-orange-300 border-orange-500/40'},
-  {id:'B',   label:'Tier B',   cls:'bg-yellow-500/20 text-yellow-300 border-yellow-500/40'},
+  {id:'S',   label:'Best',     cls:'bg-red-500/20 text-red-300 border-red-500/40'},
+  {id:'A',   label:'Good',     cls:'bg-orange-500/20 text-orange-300 border-orange-500/40'},
+  {id:'B',   label:'Mid',      cls:'bg-yellow-500/20 text-yellow-300 border-yellow-500/40'},
   {id:'U',   label:'Unknown',  cls:'bg-slate-700 text-slate-300 border-slate-600'},
 ];
 
@@ -838,9 +838,10 @@ function PitBox(props){
   var n=props.n; var popup=props.popup; var setPopup=props.setPopup; var sq=props.sq;
   var mode=props.mode||'brazil';
   var tierFilter=props.tierFilter||'all';
-  if(!n) return <div style={{width:56,height:46}}/>;
-  if(n==="COL") return <div style={{width:56,height:46}} className="rounded flex items-center justify-center font-bold border-2 bg-slate-900 text-slate-500 border-slate-700 text-xs">COL</div>;
-  if(n==="INSP") return <div style={{width:56,height:46}} className="rounded flex items-center justify-center font-bold border-2 bg-slate-600/30 text-slate-400 border-slate-500/40"><span style={{fontSize:9}}>INSP</span></div>;
+  var cellH=mode==='newton'?66:46;
+  if(!n) return <div style={{width:56,height:cellH}}/>;
+  if(n==="COL") return <div style={{width:56,height:cellH}} className="rounded flex items-center justify-center font-bold border-2 bg-slate-900 text-slate-500 border-slate-700 text-xs">COL</div>;
+  if(n==="INSP") return <div style={{width:56,height:cellH}} className="rounded flex items-center justify-center font-bold border-2 bg-slate-600/30 text-slate-400 border-slate-500/40"><span style={{fontSize:9}}>INSP</span></div>;
   var isUs=n===1884;
   var src=mode==='newton'?NEWTON_TEAMS:TEAMS;
   var teamObj=null;
@@ -853,13 +854,19 @@ function PitBox(props){
     var scoutEntry=teamObj&&!teamObj.us?NEWTON_SCOUT[teamObj.n]:null;
     var tier=scoutEntry?scoutEntry.tier:null;
     var tierColors={S:'text-red-300',A:'text-orange-300',B:'text-yellow-300',U:'text-slate-300'};
+    var tierWords={S:'Best',A:'Good',B:'Mid',U:'Unknown'};
     var dimmed=tierFilter!=='all'&&!isUs&&tier!==tierFilter;
+    var rawName=teamObj?teamObj.name:'';
+    var displayName=rawName.length>8?rawName.slice(0,8)+'…':rawName;
+    var line3=isUs?'YOU':(tier?tierWords[tier]:'');
+    var line3Color=isUs?'text-black':(tierColors[tier]||'text-slate-400');
     return (
       <button onClick={function(){setPopup(open?null:n);}}
-        style={{width:56,height:46}}
-        className={"rounded flex flex-col items-center justify-center font-bold border-2 transition-all active:scale-95 shrink-0 "+bg+" "+openRing+(dimmed?' opacity-30':'')}>
-        <span style={{fontSize:9}} className="leading-tight font-black">{n}{isUs?' YOU':''}</span>
-        {tier&&!isUs&&<span style={{fontSize:9}} className={"font-black "+(tierColors[tier]||'text-slate-300')}>{tier}</span>}
+        style={{width:56,height:cellH}}
+        className={"rounded flex flex-col items-center justify-center border-2 transition-all active:scale-95 shrink-0 leading-tight "+bg+" "+openRing+(dimmed?' opacity-30':'')}>
+        <span style={{fontSize:9}} className="font-black">{n}</span>
+        {displayName&&<span style={{fontSize:8}} className="font-semibold opacity-90">{displayName}</span>}
+        {line3&&<span style={{fontSize:8}} className={"font-bold "+line3Color}>{line3}</span>}
       </button>
     );
   }
@@ -1147,7 +1154,7 @@ function NewtonTierBadge(props){
   if(!info) return null;
   return (
     <span className={"px-1.5 py-0.5 rounded text-xs font-bold border "+info.cls}>
-      {sc.tier}{typeof sc.epa==='number'?' · EPA '+sc.epa:''}
+      {info.label}{typeof sc.epa==='number'?' · EPA '+sc.epa:''}
     </span>
   );
 }
