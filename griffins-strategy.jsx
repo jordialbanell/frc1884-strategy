@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, Users, Trophy, Calendar, Book, AlertTriangle, Clock, Award, Share2, Check, RotateCcw, CircleDot, ArrowUp, Pencil, Eraser, Trash2, MapPin, Calculator, Star } from 'lucide-react';
+const { useState, useEffect, useRef, useCallback } = React;
+const { Search, Users, Trophy, Calendar, Book, AlertTriangle, Clock, Award, Share2, Check, RotateCcw, CircleDot, ArrowUp, Pencil, Eraser, Trash2, MapPin, Calculator, Star, Shield } = lucideReact;
 
 const MATCHES = [
   { match:5,  day:"Sat 3/14", time:"9:26 AM",  red:[9218,10343,9199], blue:[1156,7565,1884],    our:'blue', stn:3 },
@@ -577,21 +577,171 @@ var SCOUT_DATA = {
     notes:"Cannot intake or shoot at all. Strategy is pushing/sweeping balls over to alliance side. Gets stuck on ramp. Did not move in auto any match."},
 };
 
+// === NEWTON DIVISION (Houston, Apr 29 - May 2, 2026) =========================
+
+var NEWTON_TEAMS = [
+  {n:88,    name:"TJ²",                  loc:"Bridgewater, MA",        pit:"Q07", tier:"A"},
+  {n:148,   name:"Robowranglers",             loc:"Greenville, TX",         pit:"P24", tier:"S"},
+  {n:180,   name:"S.P.A.M.",                  loc:"Stuart, FL",             pit:"P04", tier:"S"},
+  {n:195,   name:"CyberKnights",              loc:"Southington, CT",        pit:"P27", tier:"B"},
+  {n:233,   name:"The Pink Team",             loc:"Rockledge, FL",          pit:"P10", tier:"A"},
+  {n:341,   name:"Miss Daisy",                loc:"Ambler, PA",             pit:"R11", tier:"A"},
+  {n:346,   name:"RoboHawks",                 loc:"Richmond, VA",           pit:"P17", tier:"B"},
+  {n:386,   name:"Team Voltage",              loc:"Melbourne, FL",          pit:"Q05", tier:"B"},
+  {n:424,   name:"Rust Belt Robotics",        loc:"Buffalo, NY",            pit:"Q09", tier:"U"},
+  {n:599,   name:"The Robodox",               loc:"Granada Hills, CA",      pit:"P11", tier:"B"},
+  {n:604,   name:"Quixilver",                 loc:"San Jose, CA",           pit:"P26", tier:"B"},
+  {n:687,   name:"The Nerd Herd",             loc:"Carson, CA",             pit:"Q24", tier:"B"},
+  {n:695,   name:"Bison Robotics",            loc:"Beachwood, OH",          pit:"R16", tier:"U"},
+  {n:818,   name:"The Steel Armadillos",      loc:"Warren, MI",             pit:"N15", tier:"U"},
+  {n:868,   name:"TechHOUNDS",                loc:"Carmel, IN",             pit:"Q25", tier:"U"},
+  {n:930,   name:"Mukwonago BEARs",           loc:"Mukwonago, WI",          pit:"Q15", tier:"U"},
+  {n:948,   name:"NRG",                       loc:"Bellevue, WA",           pit:"N06", tier:"U"},
+  {n:973,   name:"Greybots",                  loc:"Atascadero, CA",         pit:"P08", tier:"B"},
+  {n:1108,  name:"Panther Robotics",          loc:"Paola, KS",              pit:"N28", tier:"U"},
+  {n:1540,  name:"Flaming Chickens",          loc:"Portland, OR",           pit:"R12", tier:"A"},
+  {n:1577,  name:"Steampunk",                 loc:"Raanana, Israel",        pit:"Q04", tier:"A"},
+  {n:1796,  name:"RoboTigers",                loc:"Queens, NY",             pit:"P05", tier:"U"},
+  {n:1807,  name:"Redbird Robotics",          loc:"Allentown, NJ",          pit:"N25", tier:"U"},
+  {n:1833,  name:"Team BEAN",                 loc:"Cumming, GA",            pit:"P15", tier:"U"},
+  {n:1884,  name:"Griffins",                  loc:"London, UK",             pit:"N11", us:true},
+  {n:1902,  name:"Exploding Bacon",           loc:"Orlando, FL",            pit:"N24", tier:"A"},
+  {n:1922,  name:"Oz-Ram",                    loc:"Contoocook, NH",         pit:"N27", tier:"U"},
+  {n:2046,  name:"Bear Metal",                loc:"Maple Valley, WA",       pit:"N09", tier:"S"},
+  {n:2052,  name:"KnightKrawler",             loc:"New Brighton, MN",       pit:"N17", tier:"A"},
+  {n:2067,  name:"Apple Pi",                  loc:"Guilford, CT",           pit:"N08", tier:"A"},
+  {n:2194,  name:"Fondy Fire",                loc:"Fond du Lac, WI",        pit:"Q26", tier:"U"},
+  {n:2370,  name:"IBOTS",                     loc:"Rutland, VT",            pit:"P18", tier:"U"},
+  {n:2586,  name:"Copper Bots",               loc:"Calumet, MI",            pit:"R23", tier:"U"},
+  {n:2713,  name:"Red Hawk Robotics",         loc:"Melrose, MA",            pit:"Q12", tier:"B"},
+  {n:2783,  name:"Engineers of Tomorrow",     loc:"La Grange, KY",          pit:"P07", tier:"U"},
+  {n:2910,  name:"Jack in the Bot",           loc:"Mill Creek, WA",         pit:"R13", tier:"U"},
+  {n:2996,  name:"Cougars Gone Wired",        loc:"Colorado Springs, CO",   pit:"Q13", tier:"U"},
+  {n:3005,  name:"RoboChargers",              loc:"Dallas, TX",             pit:"P09", tier:"B"},
+  {n:3044,  name:"Team 0xBE4",                loc:"Ballston Spa, NY",       pit:"N14", tier:"U"},
+  {n:3256,  name:"WarriorBorgs",              loc:"San Jose, CA",           pit:"R18", tier:"U"},
+  {n:3276,  name:"TOOLCATS",                  loc:"New London-Spicer, MN",  pit:"P23", tier:"U"},
+  {n:3354,  name:"PrepaTec - TecDroid",       loc:"Querétaro, Mexico", pit:"Q08", tier:"B"},
+  {n:3966,  name:"Gryphon Command",           loc:"Knoxville, TN",          pit:"N05", tier:"B"},
+  {n:4099,  name:"The Falcons",               loc:"Poolesville, MD",        pit:"Q03", tier:"U"},
+  {n:4206,  name:"Robo Vikes",                loc:"Fort Worth, TX",         pit:"R03", tier:"U"},
+  {n:4253,  name:"Raid Zero",                 loc:"Taipei, Chinese Taipei", pit:"P13", tier:"S"},
+  {n:4400,  name:"Cerbotics - Peñoles",  loc:"Torreón, Mexico",   pit:"Q11", tier:"U"},
+  {n:4561,  name:"TerrorBytes",               loc:"Research Triangle, NC",  pit:"P12", tier:"U"},
+  {n:4590,  name:"GreenBlitz",                loc:"Hakfar Hayarok, Israel", pit:"Q17", tier:"A"},
+  {n:5216,  name:"E-Ville Empire",            loc:"Essexville, MI",         pit:"N13", tier:"U"},
+  {n:5414,  name:"Pearadox",                  loc:"Pearland, TX",           pit:"N16", tier:"A"},
+  {n:5549,  name:"Gryphon Robotics",          loc:"Falls Church, VA",       pit:"N23", tier:"B"},
+  {n:5736,  name:"Kingsmen Robotics",         loc:"Kings Park, NY",         pit:"R08", tier:"U"},
+  {n:5948,  name:"PrepaTec - Lebotics",       loc:"Cuernavaca, Mexico",     pit:"Q18", tier:"U"},
+  {n:5951,  name:"Makers Assemble",           loc:"Tel Aviv, Israel",       pit:"N07", tier:"A"},
+  {n:6036,  name:"Peninsula Robotics",        loc:"Palo Alto, CA",          pit:"N26", tier:"U"},
+  {n:6352,  name:"LAUNCH TEAM",               loc:"Surprise, AZ",           pit:"Q23", tier:"U"},
+  {n:6436,  name:"NARBULUT PARS",             loc:"Istanbul, Türkiye", pit:"P06", tier:"W"},
+  {n:6647,  name:"PrepaTec - VOLTEC",         loc:"Monterrey, Mexico",      pit:"R14", tier:"B"},
+  {n:6988,  name:"ACI35",                     loc:"Izmir, Türkiye",    pit:"R09", tier:"W"},
+  {n:7160,  name:"Ludington O-Bots",          loc:"Ludington, MI",          pit:"R07", tier:"U"},
+  {n:8046,  name:"LakerBots",                 loc:"Meredith, NH",           pit:"Q10", tier:"B"},
+  {n:8373,  name:"The Flying Octopi",         loc:"Blissfield, MI",         pit:"P25", tier:"U"},
+  {n:9029,  name:"Team NF",                   loc:"Ankara, Türkiye",   pit:"R25", tier:"W"},
+  {n:9067,  name:"The Goonies",               loc:"Searcy, AR",             pit:"Q14", tier:"W"},
+  {n:9128,  name:"ITKAN Robotics",            loc:"Plano, TX",              pit:"Q16", tier:"U"},
+  {n:9245,  name:"Laker Dreadnoughts",        loc:"Pigeon, MI",             pit:"Q06", tier:"U"},
+  {n:9408,  name:"Warren Warbots",            loc:"Downey, CA",             pit:"R17", tier:"U"},
+  {n:9450,  name:"Velocity Raptors",          loc:"Woodinville, WA",        pit:"N18", tier:"U"},
+  {n:10291, name:"MUTUM-X",                   loc:"Nova Mutum, Brazil",     pit:"P14", tier:"W"},
+  {n:10553, name:"Orange Overdrive",          loc:"Oregon, WI",             pit:"R06", tier:"U"},
+  {n:10903, name:"The Ionizers",              loc:"Reno, NV",               pit:"P16", tier:"U"},
+  {n:10935, name:"Krono",                     loc:"Kiryat Ono, Israel",     pit:"R15", tier:"W"},
+  {n:10979, name:"Tiger Robotics",            loc:"Philadelphia, PA",       pit:"R05", tier:"U"},
+  {n:11463, name:"SHC Robotics",              loc:"San Francisco, CA",      pit:"N12", tier:"W"},
+];
+
+var NEWTON_TIERS = [
+  {id:'all', label:'All',      cls:'bg-green-500/20 text-green-300 border-green-500/40'},
+  {id:'S',   label:'Tier S',   cls:'bg-red-500/20 text-red-300 border-red-500/40'},
+  {id:'A',   label:'Tier A',   cls:'bg-orange-500/20 text-orange-300 border-orange-500/40'},
+  {id:'B',   label:'Tier B',   cls:'bg-yellow-500/20 text-yellow-300 border-yellow-500/40'},
+  {id:'W',   label:'Wildcard', cls:'bg-purple-500/20 text-purple-300 border-purple-500/40'},
+  {id:'U',   label:'Unknown',  cls:'bg-slate-700 text-slate-300 border-slate-600'},
+];
+
+// Newton pit grid bays. Each bay is array-of-columns; each column is top-to-bottom.
+// "COL" = structural pillar, "INSP" = inspection station, 0 = empty slot.
+var NEWTON_TOP_1 = [[1922, 1807, 5549]];
+var NEWTON_TOP_2 = [[1108, 6036, 1902],[195, 8373, 3276]];
+var NEWTON_TOP_3 = [[604, 148],[868, 6352]];
+var NEWTON_TOP_4 = [[2194, 687],[9029, 2586]];
+var NEWTON_BOT_1 = [[2052, 818, 5216, 1884, 2046, 5951, 3966, "INSP", "INSP"]];
+var NEWTON_BOT_2 = [
+  [9450, 5414, 3044, 11463, "COL", 2067, 948,  "INSP", "INSP"],
+  [346,  1833, 4253, 599,   3005,  2783, 1796, "INSP", "INSP"]
+];
+var NEWTON_BOT_3 = [
+  [2370, 10903, 10291, 4561, 233,  973, 6436, 180],
+  [4590, 930,   2996,  4400, 424,  88,  386,  4099]
+];
+var NEWTON_BOT_4 = [
+  [5948, 9128,  9067, 2713, 8046, 3354, 9245,  1577],
+  [9408, 10935, 2910, 341,  6988, 7160, 10979, 4206]
+];
+var NEWTON_BOT_5 = [[3256, 695, 6647, 1540, "COL", 5736, 10553]];
+
+var NEWTON_PITCH = {
+  title: "Our pitch to alliance captains",
+  paragraphs: [
+    {h:"What we do.",        body:"Premium defence. Long rectangle. Fast, agile, drivers who can pin clean within G418 and re-engage without penalty. We don't shoot, we don't store, we don't climb."},
+    {h:"What we offer.",     body:"Pick us third and your two scorers' biggest problem - the opponents' best fuel scorer - disappears. We chase, we pin, we deny lanes. We draw fouls and we don't earn them."},
+    {h:"Who should pick us.",body:"Captains who already have two strong scorers and a Level 2/3 climber and want their #16-#22 to lock down the opposing alliance. We're the bodyguard, not the goalscorer."}
+  ]
+};
+
+var PLACEHOLDER_MATCHES = [
+  {match:1,  day:"Wed 4/29", time:"9:00 AM",  red:[148,386,4253],   blue:[180,233,599]},
+  {match:2,  day:"Wed 4/29", time:"9:45 AM",  red:[1884,2046,5414], blue:[341,4590,973],   our:'red',  stn:1},
+  {match:3,  day:"Wed 4/29", time:"10:30 AM", red:[1577,2067,8046], blue:[1540,2713,3005]},
+  {match:4,  day:"Wed 4/29", time:"11:15 AM", red:[604,5549,3354],  blue:[5951,1884,2052], our:'blue', stn:2},
+  {match:5,  day:"Thu 4/30", time:"9:00 AM",  red:[1902,1540,1884], blue:[687,195,6647],   our:'red',  stn:3},
+  {match:6,  day:"Thu 4/30", time:"10:00 AM", red:[346,5414,233],   blue:[2052,4253,386]},
+  {match:7,  day:"Thu 4/30", time:"11:30 AM", red:[3966,599,4590],  blue:[1884,148,5951],  our:'blue', stn:1},
+  {match:8,  day:"Thu 4/30", time:"1:30 PM",  red:[180,8046,2067],  blue:[341,1577,6647]},
+  {match:9,  day:"Fri 5/1",  time:"9:30 AM",  red:[2713,1884,1540], blue:[5549,4253,4590], our:'red',  stn:2},
+  {match:10, day:"Fri 5/1",  time:"10:45 AM", red:[148,1577,5414],  blue:[180,233,1902]},
+  {match:11, day:"Fri 5/1",  time:"11:30 AM", red:[2052,5951,386],  blue:[604,2046,1884],  our:'blue', stn:3},
+  {match:12, day:"Fri 5/1",  time:"1:00 PM",  red:[341,3354,8046],  blue:[2783,599,3005]}
+];
+
 function PitBox(props){
   var n=props.n; var popup=props.popup; var setPopup=props.setPopup; var sq=props.sq;
+  var mode=props.mode||'brazil';
   if(!n) return <div style={{width:56,height:46}}/>;
+  if(n==="COL") return <div style={{width:56,height:46}} className="rounded flex items-center justify-center font-bold border-2 bg-slate-900 text-slate-500 border-slate-700 text-xs">COL</div>;
+  if(n==="INSP") return <div style={{width:56,height:46}} className="rounded flex items-center justify-center font-bold border-2 bg-slate-600/30 text-slate-400 border-slate-500/40"><span style={{fontSize:9}}>INSP</span></div>;
   var isUs=n===1884;
+  var src=mode==='newton'?NEWTON_TEAMS:TEAMS;
   var teamObj=null;
-  for(var i=0;i<TEAMS.length;i++){if(TEAMS[i].n===n){teamObj=TEAMS[i];break;}}
-  var hl=sq&&(n.toString().indexOf(sq)>=0||(teamObj?teamObj.name.toLowerCase().indexOf(sq)>=0:false));
-  var hasS=!!SCOUT_DATA[n];
+  for(var i=0;i<src.length;i++){if(src[i].n===n){teamObj=src[i];break;}}
+  var hl=sq&&(String(n).indexOf(sq)>=0||(teamObj?teamObj.name.toLowerCase().indexOf(sq)>=0:false));
   var open=popup===n;
+  var bg=isUs?'bg-yellow-400 text-black border-yellow-300':hl?'bg-green-500 text-white border-green-300':'bg-amber-800/70 text-amber-100 border-amber-600';
+  var openRing=open?'ring-2 ring-white':'';
+  if(mode==='newton'){
+    var tier=teamObj?teamObj.tier:null;
+    var tierColors={S:'text-red-300',A:'text-orange-300',B:'text-yellow-300',W:'text-purple-300',U:'text-slate-300'};
+    return (
+      <button onClick={function(){setPopup(open?null:n);}}
+        style={{width:56,height:46}}
+        className={"rounded flex flex-col items-center justify-center font-bold border-2 transition-all active:scale-95 shrink-0 "+bg+" "+openRing}>
+        <span style={{fontSize:9}} className="leading-tight font-black">{n}{isUs?' YOU':''}</span>
+        {tier&&!isUs&&<span style={{fontSize:9}} className={"font-black "+(tierColors[tier]||'text-slate-300')}>{tier}</span>}
+      </button>
+    );
+  }
+  var hasS=!!SCOUT_DATA[n];
   var stars=hasS?SCOUT_DATA[n].stars:0;
   var starStr='';
   for(var s=0;s<stars;s++){starStr+='*';}
-  var bg=isUs?'bg-yellow-400 text-black border-yellow-300':hl?'bg-green-500 text-white border-green-300':'bg-amber-800/70 text-amber-100 border-amber-600';
   var ring=hasS&&!isUs?'ring-1 ring-blue-400':'';
-  var openRing=open?'ring-2 ring-white':'';
   return (
     <button onClick={function(){setPopup(open?null:n);}}
       style={{width:56,height:46}}
@@ -604,12 +754,12 @@ function PitBox(props){
 }
 
 function PitBank(props){
-  var cols=props.cols; var popup=props.popup; var setPopup=props.setPopup; var sq=props.sq;
+  var cols=props.cols; var popup=props.popup; var setPopup=props.setPopup; var sq=props.sq; var mode=props.mode;
   return (
     <div className="flex gap-1">
       {cols.map(function(col,ci){return (
         <div key={ci} className="flex flex-col gap-1">
-          {col.map(function(n,ri){return <PitBox key={ri} n={n} popup={popup} setPopup={setPopup} sq={sq}/>;}) }
+          {col.map(function(n,ri){return <PitBox key={ri} n={n} popup={popup} setPopup={setPopup} sq={sq} mode={mode}/>;}) }
         </div>
       );})}
     </div>
@@ -853,6 +1003,225 @@ function FreeStrat(){
   );
 }
 
+// === Newton tab components ===================================================
+
+function tierInfoFor(t){
+  if(!t||t.us) return null;
+  for(var i=0;i<NEWTON_TIERS.length;i++){if(NEWTON_TIERS[i].id===t.tier) return NEWTON_TIERS[i];}
+  return null;
+}
+
+function NewtonTierBadge(props){
+  var info=tierInfoFor(props.t);
+  if(!info) return null;
+  return <span className={"px-1.5 py-0.5 rounded text-xs font-bold border "+info.cls}>{info.label}</span>;
+}
+
+function NewtonTeamCard(props){
+  var t=props.t; var note=props.note; var setNote=props.setNote;
+  var isUs=t.us;
+  return (
+    <div className={"rounded-xl border p-3 space-y-2 "+(isUs?'bg-green-500/10 border-green-500/50':'bg-slate-800/50 border-slate-700')}>
+      <div className="flex items-center gap-2">
+        <div className={"w-11 h-11 rounded-lg flex items-center justify-center font-black text-xs shrink-0 "+(isUs?'bg-green-500 text-black':'bg-slate-700 text-white')}>{t.n}</div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 flex-wrap">
+            <p className="font-bold text-sm">{t.name}</p>
+            {isUs&&<span className="text-xs bg-green-500 text-black px-1 py-0.5 rounded font-bold">YOU</span>}
+            <NewtonTierBadge t={t}/>
+          </div>
+          <p className="text-xs text-slate-400">{t.loc} <span className="text-slate-500">| Pit {t.pit}</span></p>
+        </div>
+      </div>
+      <textarea value={note||''} onChange={function(e){setNote(e.target.value);}}
+        placeholder="Notes..."
+        className="w-full bg-slate-900 border border-slate-600 rounded px-2 py-1.5 text-xs h-14 resize-none"/>
+    </div>
+  );
+}
+
+function NewtonPopupCard(props){
+  var t=props.team; var note=props.note; var setNote=props.setNote; var onClose=props.onClose;
+  var isUs=t.us;
+  return (
+    <div className="bg-slate-800 border border-blue-500/40 rounded-xl p-3 space-y-2">
+      <div className="flex justify-between items-start gap-2">
+        <div className="flex items-center gap-2 flex-wrap min-w-0">
+          <p className="font-bold text-sm">{t.n} {t.name}</p>
+          {isUs&&<span className="text-xs bg-green-500 text-black px-1 py-0.5 rounded font-bold">YOU</span>}
+          <NewtonTierBadge t={t}/>
+        </div>
+        <button onClick={onClose} className="text-slate-400 text-xs px-2 shrink-0">x</button>
+      </div>
+      <p className="text-xs text-slate-400">{t.loc} <span className="text-slate-500">| Pit {t.pit}</span></p>
+      <textarea value={note||''} onChange={function(e){setNote(e.target.value);}}
+        placeholder="Notes..."
+        className="w-full bg-slate-900 border border-slate-600 rounded px-2 py-1.5 text-xs h-16 resize-none"/>
+    </div>
+  );
+}
+
+function NewtonPitMapView(props){
+  var search=props.search; var popup=props.popup; var setPopup=props.setPopup;
+  var getNote=props.getNote; var setNote=props.setNote;
+  var sq=search.trim().toLowerCase();
+  var popupTeam=null;
+  if(popup){for(var i=0;i<NEWTON_TEAMS.length;i++){if(NEWTON_TEAMS[i].n===popup){popupTeam=NEWTON_TEAMS[i];break;}}}
+  function Aisle(){return <div className="self-stretch border-l-2 border-r-2 border-dashed border-slate-600" style={{width:8}}/>;}
+  return (
+    <div className="space-y-3">
+      <p className="text-xs text-slate-400">Tap pit for team info | corner letter = tier | YOU = us</p>
+      {popup&&popupTeam&&(
+        <NewtonPopupCard team={popupTeam} note={getNote(popup)} setNote={function(v){setNote(popup,v);}} onClose={function(){setPopup(null);}}/>
+      )}
+      <div className="bg-slate-800/40 border border-slate-600 rounded-xl p-3 space-y-3 overflow-x-auto">
+        <div className="flex gap-2 items-end" style={{minWidth:'fit-content'}}>
+          <PitBank cols={NEWTON_TOP_1} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <Aisle/>
+          <PitBank cols={NEWTON_TOP_2} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <Aisle/>
+          <PitBank cols={NEWTON_TOP_3} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <Aisle/>
+          <PitBank cols={NEWTON_TOP_4} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+        </div>
+        <div className="border-t border-dashed border-slate-600"/>
+        <div className="flex gap-2 items-start" style={{minWidth:'fit-content'}}>
+          <PitBank cols={NEWTON_BOT_1} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <Aisle/>
+          <PitBank cols={NEWTON_BOT_2} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <Aisle/>
+          <PitBank cols={NEWTON_BOT_3} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <Aisle/>
+          <PitBank cols={NEWTON_BOT_4} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <Aisle/>
+          <PitBank cols={NEWTON_BOT_5} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NewtonScheduleCard(props){
+  var m=props.m;
+  return (
+    <div className="bg-slate-800/30 border border-slate-700 rounded-lg p-2">
+      <div className="flex justify-between items-center mb-1.5">
+        <div className="flex items-center gap-2">
+          <span className="bg-slate-600/50 text-slate-300 px-1.5 py-0.5 rounded text-xs font-bold">Q{m.match}</span>
+          <span className="text-xs text-slate-400">{m.day} | {m.time}</span>
+        </div>
+        {m.our&&<span className={"px-1.5 py-0.5 rounded text-xs font-bold "+(m.our==='red'?'bg-red-500/30 text-red-300':'bg-blue-500/30 text-blue-300')}>{m.our==='red'?'R':'B'}{m.stn}</span>}
+      </div>
+      <div className="grid grid-cols-2 gap-1.5">
+        {['red','blue'].map(function(a){return (
+          <div key={a} className={"p-1.5 rounded flex flex-wrap gap-1 "+(m.our===a?(a==='red'?'bg-red-900/30':'bg-blue-900/30'):'bg-slate-700/30')}>
+            {m[a].map(function(t,i){return (
+              <span key={t} className="flex items-center gap-0.5">
+                <Badge n={t} us={t===1884} a={a} sm/>
+                <span className="text-slate-500 text-xs">{a[0].toUpperCase()}{i+1}</span>
+              </span>
+            );})}
+          </div>
+        );})}
+      </div>
+    </div>
+  );
+}
+
+function NewtonTab(props){
+  var getNote=props.getNote; var setNote=props.setNote;
+  var searchSt=useState(''); var search=searchSt[0]; var setSearch=searchSt[1];
+  var tierSt=useState('all'); var tier=tierSt[0]; var setTier=tierSt[1];
+  var viewSt=useState('list'); var view=viewSt[0]; var setView=viewSt[1];
+  var popupSt=useState(null); var popup=popupSt[0]; var setPopup=popupSt[1];
+
+  var sq=search.trim().toLowerCase();
+  var filtered=NEWTON_TEAMS.filter(function(t){
+    if(tier!=='all'){
+      if(t.us) return false;
+      if(t.tier!==tier) return false;
+    }
+    if(!sq) return true;
+    return String(t.n).indexOf(sq)>=0||t.name.toLowerCase().indexOf(sq)>=0;
+  });
+
+  return (
+    <div className="space-y-3">
+      <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-3">
+        <h2 className="font-bold mb-2 flex items-center gap-2"><Shield className="w-4 h-4 text-green-400"/>Newton Division - Houston</h2>
+        <div className="grid grid-cols-2 gap-2 text-xs mb-2">
+          <div>Apr 29 - May 2, 2026</div><div>White Drape</div>
+          <div>75 teams</div><div>1884 = Pit N11</div>
+        </div>
+        <div className="bg-amber-500/10 border border-amber-500/30 rounded p-2 text-xs">
+          <p className="font-bold text-amber-300 mb-0.5">Defender mode</p>
+          <p className="text-slate-300">Long rectangle. Herd + pin. No shoot, no store, no climb. We chase the opponents' best scorer.</p>
+        </div>
+      </div>
+
+      <div className="relative">
+        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"/>
+        <input value={search} onChange={function(e){setSearch(e.target.value);}} placeholder="Search number or name..." className="w-full bg-slate-800 border border-slate-600 rounded-lg pl-9 pr-3 py-2 text-sm"/>
+      </div>
+
+      <div className="flex gap-1 flex-wrap">
+        {NEWTON_TIERS.map(function(t){
+          var active=tier===t.id;
+          return (
+            <button key={t.id} onClick={function(){setTier(t.id);}}
+              className={"px-2 py-1 rounded text-xs font-bold border transition-all "+t.cls+" "+(active?'ring-2 ring-white/60':'opacity-50 hover:opacity-100')}>
+              {t.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="flex gap-1">
+        {[{id:'list',l:'List'},{id:'pit',l:'Pit Map'}].map(function(v){return (
+          <button key={v.id} onClick={function(){setView(v.id);}}
+            className={"flex-1 py-1.5 rounded text-xs font-bold "+(view===v.id?'bg-green-500 text-white':'bg-slate-700 text-slate-400')}>
+            {v.l}
+          </button>
+        );})}
+      </div>
+
+      <p className="text-xs text-slate-500">{filtered.length} of {NEWTON_TEAMS.length} teams</p>
+
+      {view==='list'?(
+        <div className="space-y-1.5">
+          {filtered.map(function(t){return (
+            <NewtonTeamCard key={t.n} t={t} note={getNote(t.n)} setNote={function(v){setNote(t.n,v);}}/>
+          );})}
+          {filtered.length===0&&<p className="text-center text-slate-500 text-xs py-6">No teams match.</p>}
+        </div>
+      ):(
+        <NewtonPitMapView search={search} popup={popup} setPopup={setPopup} getNote={getNote} setNote={setNote}/>
+      )}
+
+      <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-3 space-y-2">
+        <div className="flex items-center gap-2 mb-1">
+          <Calendar className="w-4 h-4 text-amber-400"/>
+          <h3 className="font-bold text-sm">Schedule</h3>
+          <span className="text-xs bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1.5 py-0.5 rounded font-bold ml-auto">PLACEHOLDER</span>
+        </div>
+        <p className="text-xs text-slate-400">Real assignments drop at event check-in. These are dummy matches for layout testing.</p>
+        <div className="space-y-1.5">
+          {PLACEHOLDER_MATCHES.map(function(m){return <NewtonScheduleCard key={m.match} m={m}/>;})}
+        </div>
+      </div>
+
+      <div className="bg-blue-500/10 border border-blue-500/40 rounded-xl p-3 space-y-2">
+        <h3 className="font-bold text-sm flex items-center gap-2"><Award className="w-4 h-4 text-blue-300"/>{NEWTON_PITCH.title}</h3>
+        {NEWTON_PITCH.paragraphs.map(function(p,i){return (
+          <p key={i} className="text-xs text-slate-200 leading-relaxed">
+            <span className="font-bold text-blue-300">{p.h}</span> {p.body}
+          </p>
+        );})}
+      </div>
+    </div>
+  );
+}
+
 export default function App(){
   const [tab,setTab]=useState('overview');
   const [match,setMatch]=useState(null);
@@ -862,8 +1231,9 @@ export default function App(){
   const [copied,setCopied]=useState(false);
   const [strats,setStrats]=useState({});
 
-  useEffect(()=>{try{const s=localStorage.getItem('frc-v11');if(s)setStrats(JSON.parse(s));}catch{}},[]);
-  useEffect(()=>{try{localStorage.setItem('frc-v11',JSON.stringify(strats));}catch{}},[strats]);
+  // Read v12 if present, else fall back to v11 (one-time migration). Writes go to v12 only.
+  useEffect(()=>{try{const s=localStorage.getItem('frc-v12')||localStorage.getItem('frc-v11');if(s)setStrats(JSON.parse(s));}catch{}},[]);
+  useEffect(()=>{try{localStorage.setItem('frc-v12',JSON.stringify(strats));}catch{}},[strats]);
 
   const gm=m=>strats[`m${m}`]||{};
   const sm=(m,d)=>setStrats(p=>({...p,[`m${m}`]:{...gm(m),...d}}));
@@ -886,12 +1256,15 @@ export default function App(){
     try{navigator.clipboard.writeText(`${location.origin}${location.pathname}?s=${btoa(JSON.stringify(strats))}`);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch{}
   };
 
+  const getNote=n=>(strats.newtonNotes||{})[n]||'';
+  const setNote=(n,v)=>setStrats(p=>({...p,newtonNotes:{...(p.newtonNotes||{}),[n]:v}}));
+
   const days=['all','Thu 3/12','Fri 3/13','Sat 3/14'];
   const cats=['all',...new Set(RULES.map(r=>r.cat))];
   const fM=MATCHES.filter(m=>dayF==='all'||m.day===dayF);
   const fR=ruleF==='all'?RULES:RULES.filter(r=>r.cat===ruleF);
   const fT=TEAMS.filter(t=>t.name.toLowerCase().includes(search.toLowerCase())||t.n.toString().includes(search));
-  const TABS=[{id:'overview',L:'Overview',I:Book},{id:'schedule',L:'Schedule',I:Calendar},{id:'strategy',L:'Strategy',I:Trophy},{id:'freestrat',L:'Free Strat',I:Pencil},{id:'scoring',L:'Scoring',I:CircleDot},{id:'rpcalc',L:'RP Calc',I:Calculator},{id:'pitmap',L:'Pit Map',I:MapPin},{id:'teams',L:'Teams',I:Users},{id:'rules',L:'Rules',I:AlertTriangle}];
+  const TABS=[{id:'newton',L:'Newton',I:Shield},{id:'overview',L:'Overview',I:Book},{id:'schedule',L:'Schedule',I:Calendar},{id:'strategy',L:'Strategy',I:Trophy},{id:'freestrat',L:'Free Strat',I:Pencil},{id:'scoring',L:'Scoring',I:CircleDot},{id:'rpcalc',L:'RP Calc',I:Calculator},{id:'pitmap',L:'Pit Map',I:MapPin},{id:'teams',L:'Teams',I:Users},{id:'rules',L:'Rules',I:AlertTriangle}];
 
   return(
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-green-900 text-white">
@@ -915,6 +1288,10 @@ export default function App(){
       </nav>
 
       <main className="max-w-2xl mx-auto p-3">
+
+        {tab==='newton'&&(
+          <NewtonTab getNote={getNote} setNote={setNote}/>
+        )}
 
         {tab==='overview'&&(
           <div className="space-y-3">
