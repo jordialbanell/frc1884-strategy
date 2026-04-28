@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { Search, Users, Trophy, Calendar, Book, AlertTriangle, Clock, Award, Share2, Check, RotateCcw, CircleDot, ArrowUp, Pencil, Eraser, Trash2, MapPin, Calculator, Star, Shield } from 'lucide-react';
+import { Search, Users, Trophy, Calendar, Book, AlertTriangle, Clock, Award, Share2, Check, RotateCcw, CircleDot, ArrowUp, Pencil, Eraser, Trash2, MapPin, Calculator, Star } from 'lucide-react';
 
 const MATCHES = [
   { match:5,  day:"Sat 3/14", time:"9:26 AM",  red:[9218,10343,9199], blue:[1156,7565,1884],    our:'blue', stn:3 },
@@ -711,9 +711,53 @@ var PLACEHOLDER_MATCHES = [
   {match:12, day:"Fri 5/1",  time:"1:00 PM",  red:[341,3354,8046],  blue:[2783,599,3005]}
 ];
 
+// === EVENT REGISTRY ==========================================================
+// Single source of truth for event-specific data. Tabs read currentEvent.* via App.
+var EVENTS = {
+  brazil: {
+    id: 'brazil',
+    label: 'Brazil 2026',
+    subtitle: 'Mar 12-15',
+    location: 'SESI Osasco, SP Brazil',
+    dates: 'Mar 12-15, 2026',
+    teamCount: 51,
+    fieldType: 'AndyMark field',
+    matches: MATCHES,
+    teams: TEAMS,
+    scout: SCOUT_DATA,
+    pitGrid: { T01_LEFT, T01_RIGHT, T01_BOT_L, T01_BOT_R, T03_LEFT, T03_RIGHT, T03_BOT_L, T03_BOT_R },
+    pitGridLayout: 'brazil',
+    overviewBlurb: { type: 'no-climb' },
+    rules: RULES,
+    storageKey: 'frc-v12-brazil',
+    scheduleIsPlaceholder: false,
+  },
+  newton: {
+    id: 'newton',
+    label: 'Newton 2026',
+    subtitle: 'Apr 29 - May 2',
+    location: 'George R. Brown Convention Center, Houston, TX',
+    dates: 'Apr 29 - May 2, 2026',
+    teamCount: 75,
+    fieldType: 'AndyMark field',
+    matches: PLACEHOLDER_MATCHES,
+    teams: NEWTON_TEAMS,
+    scout: {},
+    pitGrid: { NEWTON_TOP_1, NEWTON_TOP_2, NEWTON_TOP_3, NEWTON_TOP_4, NEWTON_BOT_1, NEWTON_BOT_2, NEWTON_BOT_3, NEWTON_BOT_4, NEWTON_BOT_5 },
+    pitGridLayout: 'newton',
+    overviewBlurb: { type: 'defender' },
+    rules: RULES,
+    storageKey: 'frc-v12-newton',
+    scheduleIsPlaceholder: true,
+    tiers: NEWTON_TIERS,
+    pitch: NEWTON_PITCH,
+  },
+};
+
 function PitBox(props){
   var n=props.n; var popup=props.popup; var setPopup=props.setPopup; var sq=props.sq;
   var mode=props.mode||'brazil';
+  var tierFilter=props.tierFilter||'all';
   if(!n) return <div style={{width:56,height:46}}/>;
   if(n==="COL") return <div style={{width:56,height:46}} className="rounded flex items-center justify-center font-bold border-2 bg-slate-900 text-slate-500 border-slate-700 text-xs">COL</div>;
   if(n==="INSP") return <div style={{width:56,height:46}} className="rounded flex items-center justify-center font-bold border-2 bg-slate-600/30 text-slate-400 border-slate-500/40"><span style={{fontSize:9}}>INSP</span></div>;
@@ -728,10 +772,11 @@ function PitBox(props){
   if(mode==='newton'){
     var tier=teamObj?teamObj.tier:null;
     var tierColors={S:'text-red-300',A:'text-orange-300',B:'text-yellow-300',W:'text-purple-300',U:'text-slate-300'};
+    var dimmed=tierFilter!=='all'&&!isUs&&tier!==tierFilter;
     return (
       <button onClick={function(){setPopup(open?null:n);}}
         style={{width:56,height:46}}
-        className={"rounded flex flex-col items-center justify-center font-bold border-2 transition-all active:scale-95 shrink-0 "+bg+" "+openRing}>
+        className={"rounded flex flex-col items-center justify-center font-bold border-2 transition-all active:scale-95 shrink-0 "+bg+" "+openRing+(dimmed?' opacity-30':'')}>
         <span style={{fontSize:9}} className="leading-tight font-black">{n}{isUs?' YOU':''}</span>
         {tier&&!isUs&&<span style={{fontSize:9}} className={"font-black "+(tierColors[tier]||'text-slate-300')}>{tier}</span>}
       </button>
@@ -754,12 +799,12 @@ function PitBox(props){
 }
 
 function PitBank(props){
-  var cols=props.cols; var popup=props.popup; var setPopup=props.setPopup; var sq=props.sq; var mode=props.mode;
+  var cols=props.cols; var popup=props.popup; var setPopup=props.setPopup; var sq=props.sq; var mode=props.mode; var tierFilter=props.tierFilter;
   return (
     <div className="flex gap-1">
       {cols.map(function(col,ci){return (
         <div key={ci} className="flex flex-col gap-1">
-          {col.map(function(n,ri){return <PitBox key={ri} n={n} popup={popup} setPopup={setPopup} sq={sq} mode={mode}/>;}) }
+          {col.map(function(n,ri){return <PitBox key={ri} n={n} popup={popup} setPopup={setPopup} sq={sq} mode={mode} tierFilter={tierFilter}/>;}) }
         </div>
       );})}
     </div>
@@ -826,7 +871,8 @@ function PitMap(){
 }
 
 
-function FreeStrat(){
+function FreeStrat(props){
+  var teams=(props&&props.teams)||TEAMS;
   var redState=useState([1884,0,0]);
   var redTeams=redState[0]; var setRedTeams=redState[1];
   var blueState=useState([0,0,0]);
@@ -863,7 +909,7 @@ function FreeStrat(){
   var allPicked=[].concat(redTeams,blueTeams).filter(function(x){return x&&x!==0;});
 
   function teamOpts(current){
-    return TEAMS.filter(function(t){
+    return teams.filter(function(t){
       return t.n===current||allPicked.indexOf(t.n)<0;
     });
   }
@@ -1017,29 +1063,6 @@ function NewtonTierBadge(props){
   return <span className={"px-1.5 py-0.5 rounded text-xs font-bold border "+info.cls}>{info.label}</span>;
 }
 
-function NewtonTeamCard(props){
-  var t=props.t; var note=props.note; var setNote=props.setNote;
-  var isUs=t.us;
-  return (
-    <div className={"rounded-xl border p-3 space-y-2 "+(isUs?'bg-green-500/10 border-green-500/50':'bg-slate-800/50 border-slate-700')}>
-      <div className="flex items-center gap-2">
-        <div className={"w-11 h-11 rounded-lg flex items-center justify-center font-black text-xs shrink-0 "+(isUs?'bg-green-500 text-black':'bg-slate-700 text-white')}>{t.n}</div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap">
-            <p className="font-bold text-sm">{t.name}</p>
-            {isUs&&<span className="text-xs bg-green-500 text-black px-1 py-0.5 rounded font-bold">YOU</span>}
-            <NewtonTierBadge t={t}/>
-          </div>
-          <p className="text-xs text-slate-400">{t.loc} <span className="text-slate-500">| Pit {t.pit}</span></p>
-        </div>
-      </div>
-      <textarea value={note||''} onChange={function(e){setNote(e.target.value);}}
-        placeholder="Notes..."
-        className="w-full bg-slate-900 border border-slate-600 rounded px-2 py-1.5 text-xs h-14 resize-none"/>
-    </div>
-  );
-}
-
 function NewtonPopupCard(props){
   var t=props.team; var note=props.note; var setNote=props.setNote; var onClose=props.onClose;
   var isUs=t.us;
@@ -1062,11 +1085,13 @@ function NewtonPopupCard(props){
 }
 
 function NewtonPitMapView(props){
+  var event=props.event;
   var search=props.search; var popup=props.popup; var setPopup=props.setPopup;
   var getNote=props.getNote; var setNote=props.setNote;
+  var tierFilter=props.tierFilter||'all';
   var sq=search.trim().toLowerCase();
   var popupTeam=null;
-  if(popup){for(var i=0;i<NEWTON_TEAMS.length;i++){if(NEWTON_TEAMS[i].n===popup){popupTeam=NEWTON_TEAMS[i];break;}}}
+  if(popup){for(var i=0;i<event.teams.length;i++){if(event.teams[i].n===popup){popupTeam=event.teams[i];break;}}}
   function Aisle(){return <div className="self-stretch border-l-2 border-r-2 border-dashed border-slate-600" style={{width:8}}/>;}
   return (
     <div className="space-y-3">
@@ -1076,96 +1101,44 @@ function NewtonPitMapView(props){
       )}
       <div className="bg-slate-800/40 border border-slate-600 rounded-xl p-3 space-y-3 overflow-x-auto">
         <div className="flex gap-2 items-end" style={{minWidth:'fit-content'}}>
-          <PitBank cols={NEWTON_TOP_1} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <PitBank cols={NEWTON_TOP_1} popup={popup} setPopup={setPopup} sq={sq} mode="newton" tierFilter={tierFilter}/>
           <Aisle/>
-          <PitBank cols={NEWTON_TOP_2} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <PitBank cols={NEWTON_TOP_2} popup={popup} setPopup={setPopup} sq={sq} mode="newton" tierFilter={tierFilter}/>
           <Aisle/>
-          <PitBank cols={NEWTON_TOP_3} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <PitBank cols={NEWTON_TOP_3} popup={popup} setPopup={setPopup} sq={sq} mode="newton" tierFilter={tierFilter}/>
           <Aisle/>
-          <PitBank cols={NEWTON_TOP_4} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <PitBank cols={NEWTON_TOP_4} popup={popup} setPopup={setPopup} sq={sq} mode="newton" tierFilter={tierFilter}/>
         </div>
         <div className="border-t border-dashed border-slate-600"/>
         <div className="flex gap-2 items-start" style={{minWidth:'fit-content'}}>
-          <PitBank cols={NEWTON_BOT_1} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <PitBank cols={NEWTON_BOT_1} popup={popup} setPopup={setPopup} sq={sq} mode="newton" tierFilter={tierFilter}/>
           <Aisle/>
-          <PitBank cols={NEWTON_BOT_2} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <PitBank cols={NEWTON_BOT_2} popup={popup} setPopup={setPopup} sq={sq} mode="newton" tierFilter={tierFilter}/>
           <Aisle/>
-          <PitBank cols={NEWTON_BOT_3} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <PitBank cols={NEWTON_BOT_3} popup={popup} setPopup={setPopup} sq={sq} mode="newton" tierFilter={tierFilter}/>
           <Aisle/>
-          <PitBank cols={NEWTON_BOT_4} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <PitBank cols={NEWTON_BOT_4} popup={popup} setPopup={setPopup} sq={sq} mode="newton" tierFilter={tierFilter}/>
           <Aisle/>
-          <PitBank cols={NEWTON_BOT_5} popup={popup} setPopup={setPopup} sq={sq} mode="newton"/>
+          <PitBank cols={NEWTON_BOT_5} popup={popup} setPopup={setPopup} sq={sq} mode="newton" tierFilter={tierFilter}/>
         </div>
       </div>
     </div>
   );
 }
 
-function NewtonScheduleCard(props){
-  var m=props.m;
-  return (
-    <div className="bg-slate-800/30 border border-slate-700 rounded-lg p-2">
-      <div className="flex justify-between items-center mb-1.5">
-        <div className="flex items-center gap-2">
-          <span className="bg-slate-600/50 text-slate-300 px-1.5 py-0.5 rounded text-xs font-bold">Q{m.match}</span>
-          <span className="text-xs text-slate-400">{m.day} | {m.time}</span>
-        </div>
-        {m.our&&<span className={"px-1.5 py-0.5 rounded text-xs font-bold "+(m.our==='red'?'bg-red-500/30 text-red-300':'bg-blue-500/30 text-blue-300')}>{m.our==='red'?'R':'B'}{m.stn}</span>}
-      </div>
-      <div className="grid grid-cols-2 gap-1.5">
-        {['red','blue'].map(function(a){return (
-          <div key={a} className={"p-1.5 rounded flex flex-wrap gap-1 "+(m.our===a?(a==='red'?'bg-red-900/30':'bg-blue-900/30'):'bg-slate-700/30')}>
-            {m[a].map(function(t,i){return (
-              <span key={t} className="flex items-center gap-0.5">
-                <Badge n={t} us={t===1884} a={a} sm/>
-                <span className="text-slate-500 text-xs">{a[0].toUpperCase()}{i+1}</span>
-              </span>
-            );})}
-          </div>
-        );})}
-      </div>
-    </div>
-  );
-}
-
-function NewtonTab(props){
-  var getNote=props.getNote; var setNote=props.setNote;
+function NewtonPitMapTab(props){
+  var event=props.event; var getNote=props.getNote; var setNote=props.setNote;
   var searchSt=useState(''); var search=searchSt[0]; var setSearch=searchSt[1];
   var tierSt=useState('all'); var tier=tierSt[0]; var setTier=tierSt[1];
-  var viewSt=useState('list'); var view=viewSt[0]; var setView=viewSt[1];
   var popupSt=useState(null); var popup=popupSt[0]; var setPopup=popupSt[1];
-
-  var sq=search.trim().toLowerCase();
-  var filtered=NEWTON_TEAMS.filter(function(t){
-    if(tier!=='all'){
-      if(t.us) return false;
-      if(t.tier!==tier) return false;
-    }
-    if(!sq) return true;
-    return String(t.n).indexOf(sq)>=0||t.name.toLowerCase().indexOf(sq)>=0;
-  });
-
   return (
     <div className="space-y-3">
-      <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-3">
-        <h2 className="font-bold mb-2 flex items-center gap-2"><Shield className="w-4 h-4 text-green-400"/>Newton Division - Houston</h2>
-        <div className="grid grid-cols-2 gap-2 text-xs mb-2">
-          <div>Apr 29 - May 2, 2026</div><div>White Drape</div>
-          <div>75 teams</div><div>1884 = Pit N11</div>
-        </div>
-        <div className="bg-amber-500/10 border border-amber-500/30 rounded p-2 text-xs">
-          <p className="font-bold text-amber-300 mb-0.5">Defender mode</p>
-          <p className="text-slate-300">Long rectangle. Herd + pin. No shoot, no store, no climb. We chase the opponents' best scorer.</p>
-        </div>
-      </div>
-
       <div className="relative">
         <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"/>
         <input value={search} onChange={function(e){setSearch(e.target.value);}} placeholder="Search number or name..." className="w-full bg-slate-800 border border-slate-600 rounded-lg pl-9 pr-3 py-2 text-sm"/>
       </div>
-
       <div className="flex gap-1 flex-wrap">
-        {NEWTON_TIERS.map(function(t){
+        {event.tiers.map(function(t){
           var active=tier===t.id;
           return (
             <button key={t.id} onClick={function(){setTier(t.id);}}
@@ -1175,68 +1148,170 @@ function NewtonTab(props){
           );
         })}
       </div>
+      <NewtonPitMapView event={event} search={search} popup={popup} setPopup={setPopup} getNote={getNote} setNote={setNote} tierFilter={tier}/>
+    </div>
+  );
+}
 
-      <div className="flex gap-1">
-        {[{id:'list',l:'List'},{id:'pit',l:'Pit Map'}].map(function(v){return (
-          <button key={v.id} onClick={function(){setView(v.id);}}
-            className={"flex-1 py-1.5 rounded text-xs font-bold "+(view===v.id?'bg-green-500 text-white':'bg-slate-700 text-slate-400')}>
-            {v.l}
-          </button>
-        );})}
+function TeamsTab(props){
+  var event=props.event;
+  var search=props.search; var setSearch=props.setSearch;
+  var fT=props.fT; var getNote=props.getNote; var setNote=props.setNote;
+  var hasTiers=!!event.tiers;
+  var tierSt=useState('all'); var tier=tierSt[0]; var setTier=tierSt[1];
+  var filtered=fT;
+  if(hasTiers&&tier!=='all'){
+    filtered=filtered.filter(function(t){return !t.us&&t.tier===tier;});
+  }
+  return (
+    <div className="space-y-3">
+      <div className="relative">
+        <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"/>
+        <input value={search} onChange={function(e){setSearch(e.target.value);}} placeholder="Search..." className="w-full bg-slate-800 border border-slate-600 rounded-lg pl-9 pr-3 py-2 text-sm"/>
       </div>
-
-      <p className="text-xs text-slate-500">{filtered.length} of {NEWTON_TEAMS.length} teams</p>
-
-      {view==='list'?(
-        <div className="space-y-1.5">
-          {filtered.map(function(t){return (
-            <NewtonTeamCard key={t.n} t={t} note={getNote(t.n)} setNote={function(v){setNote(t.n,v);}}/>
-          );})}
-          {filtered.length===0&&<p className="text-center text-slate-500 text-xs py-6">No teams match.</p>}
+      {hasTiers&&(
+        <div className="flex gap-1 flex-wrap">
+          {event.tiers.map(function(t){
+            var active=tier===t.id;
+            return (
+              <button key={t.id} onClick={function(){setTier(t.id);}}
+                className={"px-2 py-1 rounded text-xs font-bold border transition-all "+t.cls+" "+(active?'ring-2 ring-white/60':'opacity-50 hover:opacity-100')}>
+                {t.label}
+              </button>
+            );
+          })}
         </div>
-      ):(
-        <NewtonPitMapView search={search} popup={popup} setPopup={setPopup} getNote={getNote} setNote={setNote}/>
       )}
-
-      <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-3 space-y-2">
-        <div className="flex items-center gap-2 mb-1">
-          <Calendar className="w-4 h-4 text-amber-400"/>
-          <h3 className="font-bold text-sm">Schedule</h3>
-          <span className="text-xs bg-amber-500/20 text-amber-300 border border-amber-500/40 px-1.5 py-0.5 rounded font-bold ml-auto">PLACEHOLDER</span>
-        </div>
-        <p className="text-xs text-slate-400">Real assignments drop at event check-in. These are dummy matches for layout testing.</p>
-        <div className="space-y-1.5">
-          {PLACEHOLDER_MATCHES.map(function(m){return <NewtonScheduleCard key={m.match} m={m}/>;})}
-        </div>
-      </div>
-
-      <div className="bg-blue-500/10 border border-blue-500/40 rounded-xl p-3 space-y-2">
-        <h3 className="font-bold text-sm flex items-center gap-2"><Award className="w-4 h-4 text-blue-300"/>{NEWTON_PITCH.title}</h3>
-        {NEWTON_PITCH.paragraphs.map(function(p,i){return (
-          <p key={i} className="text-xs text-slate-200 leading-relaxed">
-            <span className="font-bold text-blue-300">{p.h}</span> {p.body}
-          </p>
-        );})}
+      <p className="text-xs text-slate-500">{hasTiers?filtered.length+' of '+event.teams.length+' teams':filtered.length+' teams'}</p>
+      <div className="space-y-1.5">
+        {filtered.map(function(t){
+          var s=event.scout[t.n];
+          return (
+            <div key={t.n} className={"rounded-xl border p-3 space-y-2 "+(t.us?'bg-green-500/10 border-green-500/50':s&&s.warn?'bg-red-900/20 border-red-500/30':'bg-slate-800/50 border-slate-700')}>
+              <div className="flex items-center gap-2">
+                <div className={"w-11 h-11 rounded-lg flex items-center justify-center font-black text-xs shrink-0 "+(t.us?'bg-green-500 text-black':s&&s.warn?'bg-red-700 text-white':'bg-slate-700 text-white')}>{t.n}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <p className="font-bold text-sm">{t.name}</p>
+                    {t.us&&<span className="text-xs bg-green-500 text-black px-1 py-0.5 rounded font-bold">YOU</span>}
+                    {s&&s.warn&&<span className="text-xs bg-red-600 text-white px-1 py-0.5 rounded font-bold">! WARN</span>}
+                    {hasTiers&&<NewtonTierBadge t={t}/>}
+                  </div>
+                  <p className="text-xs text-slate-400">{t.loc}{t.pit?' | Pit '+t.pit:''}</p>
+                  {s&&<div className="flex items-center gap-1 mt-0.5">
+                    {[0,1,2,3].map(function(i){return <Star key={i} className={"w-3 h-3 "+(i<s.stars?'text-yellow-400 fill-yellow-400':'text-slate-600')}/>;}) }
+                    {s.climb!=='None'&&<span className="text-xs text-purple-400 ml-1">{s.climb}</span>}
+                    {s.avgFuel>0&&<span className="text-xs text-green-400 ml-1">~{s.avgFuel*5}fuel/cyc</span>}
+                  </div>}
+                </div>
+              </div>
+              {s&&<p className="text-xs text-slate-300 leading-relaxed border-t border-slate-700 pt-2">{s.notes}</p>}
+              {!s&&!t.us&&!hasTiers&&<p className="text-xs text-slate-500 italic">No scouting data available</p>}
+              {hasTiers&&(
+                <textarea value={getNote(t.n)} onChange={function(e){setNote(t.n,e.target.value);}}
+                  placeholder="Notes..."
+                  className="w-full bg-slate-900 border border-slate-600 rounded px-2 py-1.5 text-xs h-14 resize-none"/>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 }
 
+function EventSwitcher(props){
+  var eventId=props.eventId; var setEventId=props.setEventId;
+  var openSt=useState(false); var open=openSt[0]; var setOpen=openSt[1];
+  var event=EVENTS[eventId];
+  return (
+    <div className="relative">
+      <button onClick={function(){setOpen(!open);}} className="flex items-center gap-1 text-xs text-slate-400 hover:text-white transition">
+        <span>{event.label}</span>
+        <svg width="10" height="10" viewBox="0 0 10 10" className="opacity-60"><path d="M2 4 L5 7 L8 4" stroke="currentColor" strokeWidth="1.5" fill="none"/></svg>
+      </button>
+      {open&&(
+        <>
+          <div className="fixed inset-0 z-40" onClick={function(){setOpen(false);}}/>
+          <div className="absolute top-full left-0 mt-1 bg-slate-800 border border-slate-700 rounded-lg shadow-xl overflow-hidden z-50" style={{minWidth:180}}>
+            {Object.keys(EVENTS).map(function(id){
+              var e=EVENTS[id]; var active=eventId===id;
+              return (
+                <button key={id} onClick={function(){setEventId(id);setOpen(false);}}
+                  className={"w-full text-left px-3 py-2 text-xs transition "+(active?'bg-green-500/20 text-green-300':'text-slate-300 hover:bg-slate-700')}>
+                  <div className="font-bold">{e.label}</div>
+                  <div className="text-slate-500" style={{fontSize:10}}>{e.subtitle}</div>
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
 export default function App(){
+  // eventId persisted under 'frc-event'; default 'newton' on first load.
+  const [eventId,setEventId]=useState(()=>{
+    try{const s=localStorage.getItem('frc-event');if(s&&EVENTS[s])return s;}catch{}
+    return 'newton';
+  });
+  // Per-event {strats, notes}. Migration: if frc-v12-brazil missing, fold legacy frc-v12 into brazil.strats; frc-v12 stays as backup.
+  const [allData,setAllData]=useState(()=>{
+    const init={brazil:{strats:{},notes:{}},newton:{strats:{},notes:{}}};
+    try{
+      const bRaw=localStorage.getItem('frc-v12-brazil');
+      if(bRaw){
+        init.brazil=JSON.parse(bRaw);
+      }else{
+        const legacy=localStorage.getItem('frc-v12');
+        if(legacy){
+          const old=JSON.parse(legacy);
+          const {newtonNotes,...stratsOnly}=old;
+          init.brazil={strats:stratsOnly,notes:{}};
+        }
+      }
+      const nRaw=localStorage.getItem('frc-v12-newton');
+      if(nRaw) init.newton=JSON.parse(nRaw);
+    }catch{}
+    return init;
+  });
+
   const [tab,setTab]=useState('overview');
   const [match,setMatch]=useState(null);
   const [search,setSearch]=useState('');
   const [dayF,setDayF]=useState('all');
   const [ruleF,setRuleF]=useState('all');
   const [copied,setCopied]=useState(false);
-  const [strats,setStrats]=useState({});
 
-  // Read v12 if present, else fall back to v11 (one-time migration). Writes go to v12 only.
-  useEffect(()=>{try{const s=localStorage.getItem('frc-v12')||localStorage.getItem('frc-v11');if(s)setStrats(JSON.parse(s));}catch{}},[]);
-  useEffect(()=>{try{localStorage.setItem('frc-v12',JSON.stringify(strats));}catch{}},[strats]);
+  // Persist eventId.
+  useEffect(()=>{try{localStorage.setItem('frc-event',eventId);}catch{}},[eventId]);
+  // Persist per-event data. (Legacy 'frc-v12' is intentionally never written to again.)
+  useEffect(()=>{
+    try{localStorage.setItem('frc-v12-brazil',JSON.stringify(allData.brazil));}catch{}
+    try{localStorage.setItem('frc-v12-newton',JSON.stringify(allData.newton));}catch{}
+  },[allData]);
+  // Reset cross-event state when event changes (different match list / day list).
+  useEffect(()=>{setMatch(null);setDayF('all');setSearch('');},[eventId]);
+
+  const currentEvent=EVENTS[eventId];
+  const strats=allData[eventId].strats;
+  const notes=allData[eventId].notes;
+
+  const setStrats=updater=>setAllData(p=>{
+    const cur=p[eventId];
+    const next=typeof updater==='function'?updater(cur.strats):updater;
+    return {...p,[eventId]:{...cur,strats:next}};
+  });
+  const setNotes=updater=>setAllData(p=>{
+    const cur=p[eventId];
+    const next=typeof updater==='function'?updater(cur.notes):updater;
+    return {...p,[eventId]:{...cur,notes:next}};
+  });
 
   const gm=m=>strats[`m${m}`]||{};
-  const sm=(m,d)=>setStrats(p=>({...p,[`m${m}`]:{...gm(m),...d}}));
+  const sm=(m,d)=>setStrats(p=>({...p,[`m${m}`]:{...(p[`m${m}`]||{}),...d}}));
   const gPhase=(m,ph)=>gm(m)[ph]||{pos:{},strokes:[]};
   const sPhase=(m,ph,d)=>sm(m,{[ph]:d});
   const gp=(m,k)=>(gm(m).preds||{})[k]||0;
@@ -1256,15 +1331,15 @@ export default function App(){
     try{navigator.clipboard.writeText(`${location.origin}${location.pathname}?s=${btoa(JSON.stringify(strats))}`);setCopied(true);setTimeout(()=>setCopied(false),2000);}catch{}
   };
 
-  const getNote=n=>(strats.newtonNotes||{})[n]||'';
-  const setNote=(n,v)=>setStrats(p=>({...p,newtonNotes:{...(p.newtonNotes||{}),[n]:v}}));
+  const getNote=n=>notes[n]||'';
+  const setNote=(n,v)=>setNotes(p=>({...p,[n]:v}));
 
-  const days=['all','Thu 3/12','Fri 3/13','Sat 3/14'];
-  const cats=['all',...new Set(RULES.map(r=>r.cat))];
-  const fM=MATCHES.filter(m=>dayF==='all'||m.day===dayF);
-  const fR=ruleF==='all'?RULES:RULES.filter(r=>r.cat===ruleF);
-  const fT=TEAMS.filter(t=>t.name.toLowerCase().includes(search.toLowerCase())||t.n.toString().includes(search));
-  const TABS=[{id:'newton',L:'Newton',I:Shield},{id:'overview',L:'Overview',I:Book},{id:'schedule',L:'Schedule',I:Calendar},{id:'strategy',L:'Strategy',I:Trophy},{id:'freestrat',L:'Free Strat',I:Pencil},{id:'scoring',L:'Scoring',I:CircleDot},{id:'rpcalc',L:'RP Calc',I:Calculator},{id:'pitmap',L:'Pit Map',I:MapPin},{id:'teams',L:'Teams',I:Users},{id:'rules',L:'Rules',I:AlertTriangle}];
+  const days=['all',...Array.from(new Set(currentEvent.matches.map(m=>m.day)))];
+  const cats=['all',...new Set(currentEvent.rules.map(r=>r.cat))];
+  const fM=currentEvent.matches.filter(m=>dayF==='all'||m.day===dayF);
+  const fR=ruleF==='all'?currentEvent.rules:currentEvent.rules.filter(r=>r.cat===ruleF);
+  const fT=currentEvent.teams.filter(t=>t.name.toLowerCase().includes(search.toLowerCase())||t.n.toString().includes(search));
+  const TABS=[{id:'overview',L:'Overview',I:Book},{id:'schedule',L:'Schedule',I:Calendar},{id:'strategy',L:'Strategy',I:Trophy},{id:'freestrat',L:'Free Strat',I:Pencil},{id:'scoring',L:'Scoring',I:CircleDot},{id:'rpcalc',L:'RP Calc',I:Calculator},{id:'pitmap',L:'Pit Map',I:MapPin},{id:'teams',L:'Teams',I:Users},{id:'rules',L:'Rules',I:AlertTriangle}];
 
   return(
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-green-900 text-white">
@@ -1272,7 +1347,10 @@ export default function App(){
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 bg-green-500 rounded flex items-center justify-center font-black text-black text-sm">FRC</div>
-            <div><h1 className="font-bold text-green-400 text-sm">REBUILT 2026</h1><p className="text-xs text-slate-400">Brazil | Mar 12-15</p></div>
+            <div>
+              <h1 className="font-bold text-green-400 text-sm">REBUILT 2026</h1>
+              <EventSwitcher eventId={eventId} setEventId={setEventId}/>
+            </div>
           </div>
           <div className="bg-green-500/20 px-2 py-1 rounded-full text-xs flex items-center gap-1"><Award className="w-3 h-3"/>1884 Griffins</div>
         </div>
@@ -1289,29 +1367,52 @@ export default function App(){
 
       <main className="max-w-2xl mx-auto p-3">
 
-        {tab==='newton'&&(
-          <NewtonTab getNote={getNote} setNote={setNote}/>
-        )}
-
         {tab==='overview'&&(
           <div className="space-y-3">
             <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-3">
               <h2 className="font-bold mb-2 flex items-center gap-2"><Calendar className="w-4 h-4 text-green-400"/>Event</h2>
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <div> Mar 12-15, 2026</div><div> SESI Osasco, SP Brazil</div>
-                <div> 51 teams</div><div> AndyMark field</div>
+                <div>{currentEvent.dates}</div><div>{currentEvent.location}</div>
+                <div>{currentEvent.teamCount} teams</div><div>{currentEvent.fieldType}</div>
               </div>
             </div>
-            <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3">
-              <h2 className="font-bold text-amber-400 mb-2"> Griffins - No Climb!</h2>
-              <ul className="text-xs space-y-1.5">
-                <li>- Cannot climb -> primary FUEL scorer</li>
-                <li>- Preload up to 8 balls | start anywhere in your alliance zone</li>
-                <li>- Win AUTO -> opponent HUB inactive first in SHIFT 1</li>
-                <li>- Keep shooting in END GAME while partners climb</li>
-                <li>- Partners need 50+ climb pts for TRAVERSAL RP (e.g. 2xL2 + L1)</li>
-              </ul>
-            </div>
+            {currentEvent.overviewBlurb.type==='no-climb'&&(
+              <div className="bg-amber-500/10 border border-amber-500/30 rounded-xl p-3">
+                <h2 className="font-bold text-amber-400 mb-2"> Griffins - No Climb!</h2>
+                <ul className="text-xs space-y-1.5">
+                  <li>- Cannot climb -> primary FUEL scorer</li>
+                  <li>- Preload up to 8 balls | start anywhere in your alliance zone</li>
+                  <li>- Win AUTO -> opponent HUB inactive first in SHIFT 1</li>
+                  <li>- Keep shooting in END GAME while partners climb</li>
+                  <li>- Partners need 50+ climb pts for TRAVERSAL RP (e.g. 2xL2 + L1)</li>
+                </ul>
+              </div>
+            )}
+            {currentEvent.overviewBlurb.type==='defender'&&(
+              <>
+                <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-3">
+                  <h2 className="font-bold text-blue-300 mb-2">Griffins - Defender Mode</h2>
+                  <ul className="text-xs space-y-1.5">
+                    <li>- Long rectangle. Premium defence. We don't shoot, store, or climb.</li>
+                    <li>- Pick us third: we lock down the opposing alliance's best scorer.</li>
+                    <li>- G418: max 5s pin, then back off 3s before re-engaging</li>
+                    <li>- Partners must carry FUEL scoring (we contribute 0)</li>
+                    <li>- Partners need 50+ climb pts for TRAVERSAL RP (we contribute 0)</li>
+                    <li>- Look for captains with 2 strong scorers + L2/L3 climber</li>
+                  </ul>
+                </div>
+                {currentEvent.pitch&&(
+                  <div className="bg-blue-500/10 border border-blue-500/40 rounded-xl p-3 space-y-2">
+                    <h3 className="font-bold text-sm flex items-center gap-2"><Award className="w-4 h-4 text-blue-300"/>{currentEvent.pitch.title}</h3>
+                    {currentEvent.pitch.paragraphs.map(function(p,i){return (
+                      <p key={i} className="text-xs text-slate-200 leading-relaxed">
+                        <span className="font-bold text-blue-300">{p.h}</span> {p.body}
+                      </p>
+                    );})}
+                  </div>
+                )}
+              </>
+            )}
             <div className="bg-slate-800/50 border border-slate-700 rounded-xl p-3">
               <h2 className="font-bold mb-2 flex items-center gap-2"><Clock className="w-4 h-4 text-green-400"/>Match (2:40)</h2>
               <div className="flex flex-wrap gap-1 text-xs mb-2">
@@ -1343,6 +1444,12 @@ export default function App(){
 
         {tab==='schedule'&&(
           <div className="space-y-3">
+            {currentEvent.scheduleIsPlaceholder&&(
+              <div className="bg-amber-500/10 border border-amber-500/40 rounded-lg p-2 flex items-center gap-2">
+                <span className="text-xs bg-amber-500/30 text-amber-300 border border-amber-500/40 px-1.5 py-0.5 rounded font-bold">PLACEHOLDER</span>
+                <span className="text-xs text-slate-300">Real assignments drop at event check-in.</span>
+              </div>
+            )}
             <div className="flex gap-1 flex-wrap">
               {days.map(d=><button key={d} onClick={()=>setDayF(d)} className={`px-2 py-1 rounded text-xs ${dayF===d?'bg-green-500 text-white':'bg-slate-700'}`}>{d==='all'?'All':d}</button>)}
             </div>
@@ -1357,7 +1464,7 @@ export default function App(){
                     </div>
                     <div className="flex items-center gap-1">
                       {has&&<span className="text-xs bg-slate-700 px-1.5 py-0.5 rounded">{t.our}-{t.opp}</span>}
-                      <span className={`px-1.5 py-0.5 rounded text-xs font-bold ${m.our==='red'?'bg-red-500/30 text-red-300':'bg-blue-500/30 text-blue-300'}`}>{m.our==='red'?'R':'B'}{m.stn}</span>
+                      {m.our&&<span className={`px-1.5 py-0.5 rounded text-xs font-bold ${m.our==='red'?'bg-red-500/30 text-red-300':'bg-blue-500/30 text-blue-300'}`}>{m.our==='red'?'R':'B'}{m.stn}</span>}
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-1.5">
@@ -1380,15 +1487,15 @@ export default function App(){
               </button>
             </div>
             <div className="flex flex-wrap gap-1">
-              {MATCHES.map(m=>(<button key={m.match} onClick={()=>setMatch(m)} className={`px-2 py-1 rounded text-xs font-medium ${match&&match.match===m.match?'bg-green-500 text-white':strats[`m${m.match}`]?'bg-green-500/20 text-green-400 border border-green-500/40':'bg-slate-700 hover:bg-slate-600'}`}>Q{m.match}</button>))}
+              {currentEvent.matches.map(m=>(<button key={m.match} onClick={()=>setMatch(m)} className={`px-2 py-1 rounded text-xs font-medium ${match&&match.match===m.match?'bg-green-500 text-white':strats[`m${m.match}`]?'bg-green-500/20 text-green-400 border border-green-500/40':'bg-slate-700 hover:bg-slate-600'}`}>Q{m.match}</button>))}
             </div>
 
             {match?(
               <>
-                <div className={`p-3 rounded-lg border ${match.our==='red'?'bg-red-500/10 border-red-500/30':'bg-blue-500/10 border-blue-500/30'}`}>
+                <div className={`p-3 rounded-lg border ${match.our==='red'?'bg-red-500/10 border-red-500/30':match.our==='blue'?'bg-blue-500/10 border-blue-500/30':'bg-slate-800/50 border-slate-600'}`}>
                   <div className="flex justify-between">
                     <span className="font-bold">Q{match.match} | {match.day} | {match.time}</span>
-                    <span className={`font-bold ${match.our==='red'?'text-red-400':'text-blue-400'}`}>{match.our.toUpperCase()} Stn {match.stn}</span>
+                    {match.our&&<span className={`font-bold ${match.our==='red'?'text-red-400':'text-blue-400'}`}>{match.our.toUpperCase()} Stn {match.stn}</span>}
                   </div>
                   <div className="flex gap-1 mt-2 flex-wrap">
                     <span className="text-xs text-slate-400">Us:</span>
@@ -1406,8 +1513,8 @@ export default function App(){
                       function MiniScout(props){
                         var tn=props.tn; var col=props.col;
                         if(!tn||tn===0)return null;
-                        var s=SCOUT_DATA[tn];
-                        var teamObj=null; for(var i=0;i<TEAMS.length;i++){if(TEAMS[i].n===tn){teamObj=TEAMS[i];break;}}
+                        var s=currentEvent.scout[tn];
+                        var teamObj=null; for(var i=0;i<currentEvent.teams.length;i++){if(currentEvent.teams[i].n===tn){teamObj=currentEvent.teams[i];break;}}
                         var name=teamObj?teamObj.name:'Team '+tn;
                         var isUs=tn===1884;
                         return (
@@ -1608,41 +1715,7 @@ export default function App(){
         )}
 
         {tab==='teams'&&(
-          <div className="space-y-3">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400"/>
-              <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search..." className="w-full bg-slate-800 border border-slate-600 rounded-lg pl-9 pr-3 py-2 text-sm"/>
-            </div>
-            <p className="text-xs text-slate-500">{fT.length} teams</p>
-            <div className="space-y-1.5">
-              {fT.map(function(t){
-                var s=SCOUT_DATA[t.n];
-                var starStr=''; if(s){for(var i=0;i<s.stars;i++)starStr+='*';}
-                return (
-                  <div key={t.n} className={"rounded-xl border p-3 space-y-2 "+(t.us?'bg-green-500/10 border-green-500/50':s&&s.warn?'bg-red-900/20 border-red-500/30':'bg-slate-800/50 border-slate-700')}>
-                    <div className="flex items-center gap-2">
-                      <div className={"w-11 h-11 rounded-lg flex items-center justify-center font-black text-xs shrink-0 "+(t.us?'bg-green-500 text-black':s&&s.warn?'bg-red-700 text-white':'bg-slate-700 text-white')}>{t.n}</div>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <p className="font-bold text-sm">{t.name}</p>
-                          {t.us&&<span className="text-xs bg-green-500 text-black px-1 py-0.5 rounded font-bold">YOU</span>}
-                          {s&&s.warn&&<span className="text-xs bg-red-600 text-white px-1 py-0.5 rounded font-bold">! WARN</span>}
-                        </div>
-                        <p className="text-xs text-slate-400">{t.loc}</p>
-                        {s&&<div className="flex items-center gap-1 mt-0.5">
-                          {[0,1,2,3].map(function(i){return <Star key={i} className={"w-3 h-3 "+(i<s.stars?'text-yellow-400 fill-yellow-400':'text-slate-600')}/>;}) }
-                          {s.climb!=='None'&&<span className="text-xs text-purple-400 ml-1">{s.climb}</span>}
-                          {s.avgFuel>0&&<span className="text-xs text-green-400 ml-1">~{s.avgFuel*5}fuel/cyc</span>}
-                        </div>}
-                      </div>
-                    </div>
-                    {s&&<p className="text-xs text-slate-300 leading-relaxed border-t border-slate-700 pt-2">{s.notes}</p>}
-                    {!s&&!t.us&&<p className="text-xs text-slate-500 italic">No scouting data available</p>}
-                  </div>
-                );
-              })}
-            </div>
-          </div>
+          <TeamsTab event={currentEvent} search={search} setSearch={setSearch} fT={fT} getNote={getNote} setNote={setNote}/>
         )}
 
         {tab==='rules'&&(
@@ -1817,7 +1890,7 @@ export default function App(){
         {tab==='freestrat'&&(
           <div className="space-y-3">
             <h2 className="font-bold flex items-center gap-2"><Pencil className="w-4 h-4 text-green-400"/>Free Strategy Board</h2>
-            <FreeStrat/>
+            <FreeStrat key={eventId} teams={currentEvent.teams}/>
           </div>
         )}
 
@@ -1831,12 +1904,14 @@ export default function App(){
         {tab==='pitmap'&&(
           <div className="space-y-3">
             <h2 className="font-bold flex items-center gap-2"><MapPin className="w-4 h-4 text-green-400"/>Pit Map</h2>
-            <PitMap/>
+            {currentEvent.pitGridLayout==='brazil'
+              ? <PitMap/>
+              : <NewtonPitMapTab event={currentEvent} getNote={getNote} setNote={setNote}/>}
           </div>
         )}
 
       </main>
-      <footer className="border-t border-slate-700 p-3 text-center text-xs text-slate-500 mt-4">FRC Brazil 2026 | Team 1884 Griffins | REBUILT</footer>
+      <footer className="border-t border-slate-700 p-3 text-center text-xs text-slate-500 mt-4">{currentEvent.label} | Team 1884 Griffins | REBUILT</footer>
     </div>
   );
 }
